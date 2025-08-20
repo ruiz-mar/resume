@@ -14,6 +14,22 @@
             font-family: 'Inter', sans-serif;
             background-color: #f3f4f6;
         }
+        /* Hides the main content initially */
+        #main-content {
+            display: none;
+        }
+        #password-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(17, 24, 39, 0.95); /* A dark background from gray-900 */
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
         .timeline-item::before {
             content: '';
             position: absolute;
@@ -45,218 +61,218 @@
     </style>
 </head>
 <body class="antialiased text-gray-800">
-    <div class="container mx-auto max-w-6xl p-4 sm:p-6 lg:p-8">
-        <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
-            <div class="grid grid-cols-1 lg:grid-cols-3">
-                <!-- Left Column (Personal Info & Skills) -->
-                <div class="col-span-1 bg-gray-900 text-white p-8 flex flex-col">
-                    <div class="text-center">
-                        <div class="w-32 h-32 rounded-full bg-blue-600 mx-auto mb-4 flex items-center justify-center text-5xl font-bold border-4 border-gray-700">
-                            MR
+
+    <div id="password-overlay">
+        <div class="bg-gray-800 p-8 rounded-lg shadow-xl text-center">
+            <h2 class="text-white text-xl mb-4 font-semibold">Please Enter Password</h2>
+            <form id="password-form">
+                <input type="password" id="password-input" class="bg-gray-700 text-white rounded-md px-4 py-2 w-full mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Password...">
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-md transition-colors w-full">Enter</button>
+            </form>
+            <p id="error-message" class="text-red-400 mt-3 text-sm" style="display: none;">Incorrect password. Please try again.</p>
+        </div>
+    </div>
+    
+    <div id="main-content">
+        <div class="container mx-auto max-w-6xl p-4 sm:p-6 lg:p-8">
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-3">
+                    <div class="col-span-1 bg-gray-900 text-white p-8 flex flex-col">
+                        <div class="text-center">
+                            <div class="w-32 h-32 rounded-full bg-blue-600 mx-auto mb-4 flex items-center justify-center text-5xl font-bold border-4 border-gray-700">
+                                MR
+                            </div>
+                            <h1 class="text-3xl font-bold text-white">Mario Ruiz</h1>
+                            <h2 class="text-xl font-light text-blue-300">Product Developer/ Designer/3D Visualizer</h2>
                         </div>
-                        <h1 class="text-3xl font-bold text-white">Mario Ruiz</h1>
-                        <h2 class="text-xl font-light text-blue-300">Product Developer/ Designer/3D Visualizer</h2>
-                    </div>
 
-                    <hr class="my-8 border-gray-700">
+                        <hr class="my-8 border-gray-700">
 
-                    <!-- Contact Info -->
-                    <div>
-                        <h3 class="text-lg font-semibold text-blue-300 uppercase tracking-wider mb-4">Contact</h3>
-                        <div class="space-y-3 text-sm">
-                            <div class="flex items-center">
-                                <i class="fas fa-phone w-6 text-blue-400"></i>
-                                <span>+1 437-838-3936</span>
-                            </div>
-                            <div class="flex items-center">
-                                <i class="fas fa-envelope w-6 text-blue-400"></i>
-                                <span>mr.ruiz624@gmail.com</span>
-                            </div>
-                            <div class="flex items-center">
-                                <i class="fas fa-map-marker-alt w-6 text-blue-400"></i>
-                                <span>Burlington, ON</span>
-                            </div>
-                            <div class="flex items-center">
-                                <i class="fab fa-linkedin w-6 text-blue-400"></i>
-                                <a href="https://www.linkedin.com/in/marioruiz-3d/" target="_blank" class="hover:text-blue-300 transition-colors">linkedin.com/in/marioruiz-3d</a>
-                            </div>
-                             <div class="flex items-center">
-                                <i class="fa-solid fa-info-circle w-6 text-blue-400"></i>
-                                <a href="https://profile.indeed.com/p/marior-db4w8bm" target="_blank" class="hover:text-blue-300 transition-colors">Indeed Profile</a>
+                        <div>
+                            <h3 class="text-lg font-semibold text-blue-300 uppercase tracking-wider mb-4">Contact</h3>
+                            <div class="space-y-3 text-sm">
+                                <div class="flex items-center">
+                                    <i class="fas fa-phone w-6 text-blue-400"></i>
+                                    <span>+1 437-838-3936</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-envelope w-6 text-blue-400"></i>
+                                    <span>mr.ruiz624@gmail.com</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-map-marker-alt w-6 text-blue-400"></i>
+                                    <span>Burlington, ON</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fab fa-linkedin w-6 text-blue-400"></i>
+                                    <a href="https://www.linkedin.com/in/marioruiz-3d/" target="_blank" class="hover:text-blue-300 transition-colors">linkedin.com/in/marioruiz-3d</a>
+                                </div>
+                                 <div class="flex items-center">
+                                    <i class="fa-solid fa-info-circle w-6 text-blue-400"></i>
+                                    <a href="https://profile.indeed.com/p/marior-db4w8bm" target="_blank" class="hover:text-blue-300 transition-colors">Indeed Profile</a>
+                                 </div>
                             </div>
                         </div>
-                    </div>
-                    
-                    <hr class="my-8 border-gray-700">
+                        
+                        <hr class="my-8 border-gray-700">
 
-                    <!-- Languages -->
-                    <div>
-                        <h3 class="text-lg font-semibold text-blue-300 uppercase tracking-wider mb-4">Languages</h3>
-                        <div class="space-y-1 text-sm">
-                            <p><strong>English:</strong> Native</p>
-                            <p><strong>Spanish / Portuguese:</strong> Professional</p>
-                            <p><strong>French / Italian:</strong> Intermediate</p>
+                        <div>
+                            <h3 class="text-lg font-semibold text-blue-300 uppercase tracking-wider mb-4">Languages</h3>
+                            <div class="space-y-1 text-sm">
+                                <p><strong>English:</strong> Native</p>
+                                <p><strong>Spanish / Portuguese:</strong> Professional</p>
+                                <p><strong>French / Italian:</strong> Intermediate</p>
+                            </div>
                         </div>
-                    </div>
 
-                    <hr class="my-8 border-gray-700">
+                        <hr class="my-8 border-gray-700">
 
-                    <!-- Software -->
-                    <div>
-                        <h3 class="text-lg font-semibold text-blue-300 uppercase tracking-wider mb-4">Software</h3>
-                        <div class="flex flex-wrap gap-2 text-xs">
-                            <span class="bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">SolidWorks</span>
-                            <span class="bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">Rhino</span>
-                            <span class="bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">Fusion 360</span>
-                            <span class="bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">Blender</span>
-                            <span class="bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">KeyShot</span>
-                            <span class="bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">Unreal Engine</span>
-                            <span class="bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">Adobe Suite</span>
-                            <span class="bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">Figma</span>
-                            <span class="bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">MidJourney</span>
-                            <span class="bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">Vizcom</span>
-                            <span class="bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">Krea</span>
-                            <span class="bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">GPT-5</span>
-                            <span class="bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">Veo3</span>
+                        <div>
+                            <h3 class="text-lg font-semibold text-blue-300 uppercase tracking-wider mb-4">Software</h3>
+                            <div class="flex flex-wrap gap-2 text-xs">
+                                <span class="bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">SolidWorks</span>
+                                <span class="bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">Rhino</span>
+                                <span class="bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">Fusion 360</span>
+                                <span class="bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">Blender</span>
+                                <span class="bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">KeyShot</span>
+                                <span class="bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">Unreal Engine</span>
+                                <span class="bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">Adobe Suite</span>
+                                <span class="bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">Figma</span>
+                                <span class="bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">MidJourney</span>
+                                <span class="bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">Vizcom</span>
+                                <span class="bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">Krea</span>
+                                <span class="bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">GPT-5</span>
+                                <span class="bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">Veo3</span>
+                            </div>
                         </div>
-                    </div>
 
-                    <hr class="my-8 border-gray-700">
+                        <hr class="my-8 border-gray-700">
 
-                    <!-- Core Competencies -->
-                    <div>
-                        <h3 class="text-lg font-semibold text-blue-300 uppercase tracking-wider mb-4">Core Competencies</h3>
-                        <ul class="space-y-2 text-sm">
-                            <li class="flex items-center"><i class="fa-solid fa-check w-5 text-blue-400"></i>User-Centered Design (UCD) & Ergonomics</li>
-                            <li class="flex items-center"><i class="fa-solid fa-check w-5 text-blue-400"></i>CAD, Surface Design & Visualization</li>
-                            <li class="flex items-center"><i class="fa-solid fa-check w-5 text-blue-400"></i>Color, Materials, Finish (CMF)</li>
-                            <li class="flex items-center"><i class="fa-solid fa-check w-5 text-blue-400"></i>DFM & Rapid Prototyping</li>
-                            <li class="flex items-center"><i class="fa-solid fa-check w-5 text-blue-400"></i>Project Management</li>
-                            <li class="flex items-center"><i class="fa-solid fa-check w-5 text-blue-400"></i>Kaizen & Lean Manufacturing</li>
+                        <div>
+                            <h3 class="text-lg font-semibold text-blue-300 uppercase tracking-wider mb-4">Core Competencies</h3>
+                            <ul class="space-y-2 text-sm">
+                                <li class="flex items-center"><i class="fa-solid fa-check w-5 text-blue-400"></i>User-Centered Design (UCD) & Ergonomics</li>
+                                <li class="flex items-center"><i class="fa-solid fa-check w-5 text-blue-400"></i>CAD, Surface Design & Visualization</li>
+                                <li class="flex items-center"><i class="fa-solid fa-check w-5 text-blue-400"></i>Color, Materials, Finish (CMF)</li>
+                                <li class="flex items-center"><i class="fa-solid fa-check w-5 text-blue-400"></i>DFM & Rapid Prototyping</li>
+                                <li class="flex items-center"><i class="fa-solid fa-check w-5 text-blue-400"></i>Project Management</li>
+                                <li class="flex items-center"><i class="fa-solid fa-check w-5 text-blue-400"></i>Kaizen & Lean Manufacturing</li>
 
-                        </ul>
-                    </div>
+                            </ul>
+                        </div>
 
-                    <hr class="my-8 border-gray-700">
-                    
-                    <!-- Skill Proficiency -->
-                    <h3 class="text-lg font-semibold text-blue-300 uppercase tracking-wider mb-4">Skill Proficiency</h3>
-                        <div class="space-y-3 text-sm">
-                            <div>
-                                <p class="mb-1">3D CAD (SolidWorks, Rhino, SketchUp, Max)</p>
-                                <div class="w-full skill-bar-bg rounded-full h-2.5">
-                                    <div class="skill-bar h-2.5 rounded-full" style="width: 95%"></div>
+                        <hr class="my-8 border-gray-700">
+                        
+                        <h3 class="text-lg font-semibold text-blue-300 uppercase tracking-wider mb-4">Skill Proficiency</h3>
+                            <div class="space-y-3 text-sm">
+                                <div>
+                                    <p class="mb-1">3D CAD (SolidWorks, Rhino, SketchUp, Max)</p>
+                                    <div class="w-full skill-bar-bg rounded-full h-2.5">
+                                        <div class="skill-bar h-2.5 rounded-full" style="width: 95%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p class="mb-1">Rendering (KeyShot, Corona, Blender, Unreal)</p>
+                                    <div class="w-full skill-bar-bg rounded-full h-2.5">
+                                        <div class="skill-bar h-2.5 rounded-full" style="width: 85%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p class="mb-1">Graphics & UXUI (Figma, Framer, WP, WebFlow)</p>
+                                    <div class="w-full skill-bar-bg rounded-full h-2.5">
+                                        <div class="skill-bar h-2.5 rounded-full" style="width: 80%"></div>
+                                    </div>
+                                </div>
+                                 <div>
+                                    <p class="mb-1">AI-Assisted Workflow (Vizcom, MJ, Krea, Kive, Flow)</p>
+                                    <div class="w-full skill-bar-bg rounded-full h-2.5">
+                                        <div class="skill-bar h-2.5 rounded-full" style="width: 90%"></div>
+                                    </div>
+                                 </div>
+                                <div>
+                                    <p class="mb-1">Project Management / Lean Manufacturing / Continuous Improvement</p>
+                                    <div class="w-full skill-bar-bg rounded-full h-2.5">
+                                        <div class="skill-bar h-2.5 rounded-full" style="width: 90%"></div>
+                                    </div>
+                                 </div>
+                            </div>
+                        </div>
+
+                    <div class="col-span-1 lg:col-span-2 p-8 lg:p-12">
+                        <div class="mb-10">
+                            <h3 class="text-2xl font-bold text-gray-800 border-b-4 border-blue-600 pb-2 mb-4">Professional Summary</h3>
+                            <p class="text-gray-600 leading-relaxed">
+                                Passionate Industrial Designer crafting lightweight, efficient products using military-grade materials that balance functionality, user experience, and form. Experienced in mobility solutions, temporary or modular structures, and robotics, applying mechanical and aerodynamic principles, with expertise in automotive-inspired surfaces. Skilled in 3D modeling, rapid prototyping, and AI-assisted workflows, focusing on hard surface and organic forms.
+                            </p>
+                        </div>
+
+                        <div class="mb-10">
+                            <h3 class="text-2xl font-bold text-gray-800 border-b-4 border-blue-600 pb-2 mb-8">Work Experience</h3>
+                            <div class="relative pl-10">
+                                <div class="timeline-item relative mb-8">
+                                    <div class="timeline-line"></div>
+                                    <p class="font-semibold text-blue-700">2024 - Present</p>
+                                    <h4 class="text-lg font-bold">Freelance Designer</h4>
+                                    <p class="text-md text-gray-500 mb-2">Self-Employed - Greater Toronto Area, ON</p>
+                                    <ul class="list-disc list-inside text-gray-600 text-sm space-y-1">
+                                        <li>Use AI tools (Vizcom, MJ, Krea, Kive, Flow) for concept design, and visualization</li>
+                                        <li>Design lightweight military-grade products, furniture, modular homes, and retail displays</li>
+                                        <li>Produce photorealistic renders, visualizations, and detailed engineering documentation</li>
+                                        <li>Conduct material R&D and rapid prototyping with 3D printing, CNC, and laser cutting</li>
+                                    </ul>
+                                </div>
+                                <div class="timeline-item relative mb-8">
+                                    <div class="timeline-line"></div>
+                                    <p class="font-semibold text-blue-700">2023 - 2024</p>
+                                    <h4 class="text-lg font-bold">Industrial Designer / New Product Development</h4>
+                                    <p class="text-md text-gray-500 mb-2">Ezobord/Archifibe Inc. - Toronto, ON</p>
+                                    <ul class="list-disc list-inside text-gray-600 text-sm space-y-1">
+                                        <li>Designed architectural and office components in SolidWorks/Rhino, integrating LEDs, and hardware</li>
+                                        <li>Ensured manufacturability and precision by collaborating with engineering, CNC, and production</li>
+                                        <li>Updated engineering documentation, BOMs, user guides, and web content</li>
+                                    </ul>
+                                </div>
+                                 <div class="timeline-item relative mb-8">
+                                    <div class="timeline-line"></div>
+                                    <p class="font-semibold text-blue-700">2020 - 2023</p>
+                                    <h4 class="text-lg font-bold">Production Support / CAD Technician</h4>
+                                    <p class="text-md text-gray-500 mb-2">Magna International - Greater Toronto Area, ON</p>
+                                    <ul class="list-disc list-inside text-gray-600 text-sm space-y-1">
+                                        <li>Managed CAD parts vaults for engineering teams across multiple sites</li>
+                                        <li>Supported tooling, mechanical, and robotics CAD design using user-centered principles</li>
+                                        <li>Produced 2D graphics and visual assets from CAD models for global trade show displays</li>
+
+                                    </ul>
+                                </div>
+                                <div class="timeline-item relative">
+                                    <p class="font-semibold text-blue-700">2008 - 2020</p>
+                                    <h4 class="text-lg font-bold">Previous Roles</h4>
+                                    <p class="text-md text-gray-500">AWIN Group, C4P Inc., Sheridan College, Toyota</p>
+                                    <ul class="list-disc list-inside text-gray-600 text-sm space-y-1">
+                                        <li>Held roles in product operations, marketing visualization, tutoring, and project management.</li>
+                                    </ul>
                                 </div>
                             </div>
-                            <div>
-                                <p class="mb-1">Rendering (KeyShot, Corona, Blender, Unreal)</p>
-                                <div class="w-full skill-bar-bg rounded-full h-2.5">
-                                    <div class="skill-bar h-2.5 rounded-full" style="width: 85%"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <p class="mb-1">Graphics & UXUI (Figma, Framer, WP, WebFlow)</p>
-                                <div class="w-full skill-bar-bg rounded-full h-2.5">
-                                    <div class="skill-bar h-2.5 rounded-full" style="width: 80%"></div>
-                                </div>
-                            </div>
-                             <div>
-                                <p class="mb-1">AI-Assisted Workflow (Vizcom, MJ, Krea, Kive, Flow)</p>
-                                <div class="w-full skill-bar-bg rounded-full h-2.5">
-                                    <div class="skill-bar h-2.5 rounded-full" style="width: 90%"></div>
-                                </div>
-                            </div>
-							<div>
-                                <p class="mb-1">Project Management / Lean Manufacturing / Continuous Improvement</p>
-                                <div class="w-full skill-bar-bg rounded-full h-2.5">
-                                    <div class="skill-bar h-2.5 rounded-full" style="width: 90%"></div>
-                                </div>
-                            </div>
                         </div>
-					</div>
 
-                <!-- Right Column (Main Content) -->
-                <div class="col-span-1 lg:col-span-2 p-8 lg:p-12">
-                    <!-- Professional Summary -->
-                    <div class="mb-10">
-                        <h3 class="text-2xl font-bold text-gray-800 border-b-4 border-blue-600 pb-2 mb-4">Professional Summary</h3>
-                        <p class="text-gray-600 leading-relaxed">
-                            Passionate Industrial Designer crafting lightweight, efficient products using military-grade materials that balance functionality, user experience, and form. Experienced in mobility solutions, temporary or modular structures, and robotics, applying mechanical and aerodynamic principles, with expertise in automotive-inspired surfaces. Skilled in 3D modeling, rapid prototyping, and AI-assisted workflows, focusing on hard surface and organic forms.
-                        </p>
-                    </div>
-
-                    <!-- Work Experience -->
-                    <div class="mb-10">
-                        <h3 class="text-2xl font-bold text-gray-800 border-b-4 border-blue-600 pb-2 mb-8">Work Experience</h3>
-                        <div class="relative pl-10">
-                            <!-- Timeline Item -->
-                            <div class="timeline-item relative mb-8">
-                                <div class="timeline-line"></div>
-                                <p class="font-semibold text-blue-700">2024 - Present</p>
-                                <h4 class="text-lg font-bold">Freelance Designer</h4>
-                                <p class="text-md text-gray-500 mb-2">Self-Employed - Greater Toronto Area, ON</p>
-                                <ul class="list-disc list-inside text-gray-600 text-sm space-y-1">
-                                    <li>Use AI tools (Vizcom, MJ, Krea, Kive, Flow) for concept design, and visualization</li>
-									<li>Design lightweight military-grade products, furniture, modular homes, and retail displays</li>
-	       							<li>Produce photorealistic renders, visualizations, and detailed engineering documentation</li>
-									<li>Conduct material R&D and rapid prototyping with 3D printing, CNC, and laser cutting</li>
-                                </ul>
-                            </div>
-                            <!-- Timeline Item -->
-                            <div class="timeline-item relative mb-8">
-                                <div class="timeline-line"></div>
-                                <p class="font-semibold text-blue-700">2023 - 2024</p>
-                                <h4 class="text-lg font-bold">Industrial Designer / New Product Development</h4>
-                                <p class="text-md text-gray-500 mb-2">Ezobord/Archifibe Inc. - Toronto, ON</p>
-                                <ul class="list-disc list-inside text-gray-600 text-sm space-y-1">
-                                   	<li>Designed architectural and office components in SolidWorks/Rhino, integrating LEDs, and hardware</li>
-									<li>Ensured manufacturability and precision by collaborating with engineering, CNC, and production</li>
-									<li>Updated engineering documentation, BOMs, user guides, and web content</li>
-								</ul>
-                            </div>
-                             <!-- Timeline Item -->
-                            <div class="timeline-item relative mb-8">
-                                <div class="timeline-line"></div>
-                                <p class="font-semibold text-blue-700">2020 - 2023</p>
-                                <h4 class="text-lg font-bold">Production Support / CAD Technician</h4>
-                                <p class="text-md text-gray-500 mb-2">Magna International - Greater Toronto Area, ON</p>
-                                <ul class="list-disc list-inside text-gray-600 text-sm space-y-1">
-                                    <li>Managed CAD parts vaults for engineering teams across multiple sites</li>
-									<li>Supported tooling, mechanical, and robotics CAD design using user-centered principles</li>
-									<li>Produced 2D graphics and visual assets from CAD models for global trade show displays</li>
-
-                                </ul>
-                            </div>
-                            <!-- Timeline Item -->
-                            <div class="timeline-item relative">
-                                <p class="font-semibold text-blue-700">2008 - 2020</p>
-                                <h4 class="text-lg font-bold">Previous Roles</h4>
-                                <p class="text-md text-gray-500">AWIN Group, C4P Inc., Sheridan College, Toyota</p>
-                                <ul class="list-disc list-inside text-gray-600 text-sm space-y-1">
-                                    <li>Held roles in product operations, marketing visualization, tutoring, and project management.</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Education -->
-                    <div>
-                        <h3 class="text-2xl font-bold text-gray-800 border-b-4 border-blue-600 pb-2 mb-6">Education</h3>
-                        <div class="space-y-4">
-                            <div>
-                                <p class="font-semibold text-blue-700">2016-2020</p>
-                                <h4 class="text-lg font-bold">Bachelor's in Industrial Design</h4>
-                                <p class="text-md text-gray-500">Humber College - Toronto, ON</p>
-                            </div>
-                            <div>
-                                <p class="font-semibold text-blue-700">2012-2015</p>
-                                <h4 class="text-lg font-bold">Advanced Diploma in Graphic Design</h4>
-                                <p class="text-md text-gray-500">Sheridan College - Mississauga, ON</p>
-                            </div>
-                             <div>
-                                <p class="font-semibold text-blue-700">2006-2009</p>
-                                <h4 class="text-lg font-bold">University Studies in Industrial Engineering</h4>
-                                <p class="text-md text-gray-500">University of Waterloo - Waterloo, ON</p>
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-800 border-b-4 border-blue-600 pb-2 mb-6">Education</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <p class="font-semibold text-blue-700">2016-2020</p>
+                                    <h4 class="text-lg font-bold">Bachelor's in Industrial Design</h4>
+                                    <p class="text-md text-gray-500">Humber College - Toronto, ON</p>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-blue-700">2012-2015</p>
+                                    <h4 class="text-lg font-bold">Advanced Diploma in Graphic Design</h4>
+                                    <p class="text-md text-gray-500">Sheridan College - Mississauga, ON</p>
+                                </div>
+                                 <div>
+                                    <p class="font-semibold text-blue-700">2006-2009</p>
+                                    <h4 class="text-lg font-bold">University Studies in Industrial Engineering</h4>
+                                    <p class="text-md text-gray-500">University of Waterloo - Waterloo, ON</p>
+                                 </div>
                             </div>
                         </div>
                     </div>
@@ -264,13 +280,63 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordForm = document.getElementById('password-form');
+            const passwordInput = document.getElementById('password-input');
+            const errorMessage = document.getElementById('error-message');
+            const passwordOverlay = document.getElementById('password-overlay');
+            const mainContent = document.getElementById('main-content');
+            
+            // Focus on the input field when the page loads
+            passwordInput.focus();
+
+            passwordForm.addEventListener('submit', function(event) {
+                // Prevent the default form submission behavior
+                event.preventDefault();
+
+                // Check if the entered password is correct (case-insensitive)
+                if (passwordInput.value.toLowerCase() === 'welcome') {
+                    // Hide the password overlay with a fade-out effect
+                    passwordOverlay.style.transition = 'opacity 0.5s ease-out';
+                    passwordOverlay.style.opacity = '0';
+                    
+                    // After the fade-out, hide it completely and show the main content
+                    setTimeout(() => {
+                        passwordOverlay.style.display = 'none';
+                        mainContent.style.display = 'block';
+                    }, 500); // 500ms matches the transition duration
+
+                } else {
+                    // Show error message, clear the input, and shake the form for feedback
+                    errorMessage.style.display = 'block';
+                    passwordInput.value = '';
+                    passwordOverlay.querySelector('div').classList.add('animate-shake'); // Simple shake effect
+                    
+                    // Remove shake animation class after it finishes
+                    setTimeout(() => {
+                        passwordOverlay.querySelector('div').classList.remove('animate-shake');
+                    }, 600);
+                }
+            });
+        });
+        
+        // Add a simple shake animation to Tailwind for better user feedback
+        const style = document.createElement('style');
+        style.innerHTML = `
+        @keyframes shake {
+          10%, 90% { transform: translate3d(-1px, 0, 0); }
+          20%, 80% { transform: translate3d(2px, 0, 0); }
+          30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+          40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+        .animate-shake {
+          animation: shake 0.6s cubic-bezier(.36,.07,.19,.97) both;
+        }
+      `;
+      document.head.appendChild(style);
+
+    </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
