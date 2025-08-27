@@ -58,18 +58,27 @@
         .skill-bar {
             background-color: #60a5fa;
         }
+        @keyframes shake {
+          10%, 90% { transform: translate3d(-1px, 0, 0); }
+          20%, 80% { transform: translate3d(2px, 0, 0); }
+          30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+          40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+        .animate-shake {
+          animation: shake 0.6s cubic-bezier(.36,.07,.19,.97) both;
+        }
     </style>
 </head>
 <body class="antialiased text-gray-800">
 
     <div id="password-overlay">
         <div class="bg-gray-800 p-8 rounded-lg shadow-xl text-center">
-            <h2 class="text-white text-xl mb-4 font-semibold">Password required. Pretend you know it</h2>
+            <h2 class="text-white text-xl mb-4 font-semibold">Password required.</h2>
             <form id="password-form">
                 <input type="password" id="password-input" class="bg-gray-700 text-white rounded-md px-4 py-2 w-full mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Password...">
                 <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-md transition-colors w-full">Enter</button>
             </form>
-            <p id="error-message" class="text-red-400 mt-3 text-sm" style="display: none;">Wrong password. Epic fail. Try again</p>
+            <p id="error-message" class="text-red-400 mt-3 text-sm" style="display: none;">Wrong password. Try again</p>
         </div>
     </div>
     
@@ -284,7 +293,8 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        // Use window.onload to ensure the entire page is loaded before the script runs.
+        window.onload = function() {
             const passwordForm = document.getElementById('password-form');
             const passwordInput = document.getElementById('password-input');
             const errorMessage = document.getElementById('error-message');
@@ -298,8 +308,9 @@
                 // Prevent the default form submission behavior
                 event.preventDefault();
 
-                // Check if the entered password is correct (case-insensitive)
-                if (passwordInput.value.toLowerCase() === 'madebymario') {
+                // Check if the entered password is correct.
+                // The toLowerCase() method makes the check case-insensitive.
+                if (passwordInput.value.toLowerCase() === 'mariodesigns') {
                     // Hide the password overlay with a fade-out effect
                     passwordOverlay.style.transition = 'opacity 0.5s ease-out';
                     passwordOverlay.style.opacity = '0';
@@ -314,7 +325,8 @@
                     // Show error message, clear the input, and shake the form for feedback
                     errorMessage.style.display = 'block';
                     passwordInput.value = '';
-                    passwordOverlay.querySelector('div').classList.add('animate-shake'); // Simple shake effect
+                    // The shake effect is applied to the container, not the overlay itself
+                    passwordOverlay.querySelector('div').classList.add('animate-shake');
                     
                     // Remove shake animation class after it finishes
                     setTimeout(() => {
@@ -322,29 +334,7 @@
                     }, 600);
                 }
             });
-        });
-        
-        // Add a simple shake animation to Tailwind for better user feedback
-        const style = document.createElement('style');
-        style.innerHTML = `
-        @keyframes shake {
-          10%, 90% { transform: translate3d(-1px, 0, 0); }
-          20%, 80% { transform: translate3d(2px, 0, 0); }
-          30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
-          40%, 60% { transform: translate3d(4px, 0, 0); }
-        }
-        .animate-shake {
-          animation: shake 0.6s cubic-bezier(.36,.07,.19,.97) both;
-        }
-      `;
-      document.head.appendChild(style);
-
+        };
     </script>
 </body>
 </html>
-
-
-
-
-
-
