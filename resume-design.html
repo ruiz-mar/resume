@@ -64,12 +64,12 @@
 
     <div id="password-overlay">
         <div class="bg-gray-800 p-8 rounded-lg shadow-xl text-center">
-            <h2 class="text-white text-xl mb-4 font-semibold">Please Enter Password</h2>
+            <h2 class="text-white text-xl mb-4 font-semibold">Password required. Pretend you know it</h2>
             <form id="password-form">
                 <input type="password" id="password-input" class="bg-gray-700 text-white rounded-md px-4 py-2 w-full mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Password...">
                 <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-md transition-colors w-full">Enter</button>
             </form>
-            <p id="error-message" class="text-red-400 mt-3 text-sm" style="display: none;">Incorrect password. Please try again.</p>
+            <p id="error-message" class="text-red-400 mt-3 text-sm" style="display: none;">Wrong password. Epic fail. Try again</p>
         </div>
     </div>
     
@@ -83,7 +83,7 @@
                                 MR
                             </div>
                             <h1 class="text-3xl font-bold text-white">Mario Ruiz</h1>
-                            <h2 class="text-xl font-light text-blue-300">Product Developer/ Designer/3D Visualizer</h2>
+                            <h2 class="text-xl font-light text-blue-300">Designer/ Product Developer/ 3D Visualizer</h2>
                         </div>
 
                         <hr class="my-8 border-gray-700">
@@ -105,7 +105,7 @@
                                 </div>
                                 <div class="flex items-center">
                                     <i class="fab fa-linkedin w-6 text-blue-400"></i>
-                                    <a href="https://www.linkedin.com/in/marioruiz-3d/" target="_blank" class="hover:text-blue-300 transition-colors">linkedin.com/in/marioruiz-3d</a>
+                                    <a href="https://www.linkedin.com/in/marioruiz3d/" target="_blank" class="hover:text-blue-300 transition-colors">linkedin.com/in/marioruiz3d</a>
                                 </div>
                                  <div class="flex items-center">
                                     <i class="fa-solid fa-info-circle w-6 text-blue-400"></i>
@@ -212,7 +212,7 @@
                                 <div class="timeline-item relative mb-8">
                                     <div class="timeline-line"></div>
                                     <p class="font-semibold text-blue-700">2024 - Present</p>
-                                    <h4 class="text-lg font-bold">Freelance Designer</h4>
+                                    <h4 class="text-lg font-bold">Product Designer / Consultant</h4>
                                     <p class="text-md text-gray-500 mb-2">Self-Employed - Greater Toronto Area, ON</p>
                                     <ul class="list-disc list-inside text-gray-600 text-sm space-y-1">
                                         <li>Use AI tools (Vizcom, MJ, Krea, Kive, Flow) for concept design, and visualization</li>
@@ -297,7 +297,7 @@
                 event.preventDefault();
 
                 // Check if the entered password is correct (case-insensitive)
-                if (passwordInput.value.toLowerCase() === 'welcome') {
+                if (passwordInput.value.toLowerCase() === '2025') {
                     // Hide the password overlay with a fade-out effect
                     passwordOverlay.style.transition = 'opacity 0.5s ease-out';
                     passwordOverlay.style.opacity = '0';
@@ -340,3 +340,4 @@
     </script>
 </body>
 </html>
+
