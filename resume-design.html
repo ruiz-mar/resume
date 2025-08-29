@@ -9,28 +9,45 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Import three.js for 3D animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f3f4f6;
         }
-        /* Hides the main content initially. To re-enable password, change 'block' back to 'none' */
         #main-content {
             display: block;
         }
-        /* To re-enable password, remove the 'display: none;' rule below */
         #password-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background-color: rgba(17, 24, 39, 0.95); /* A dark background from gray-900 */
+            background-color: rgba(17, 24, 39, 0.95);
             z-index: 1000;
-            display: none; /* This line disables the password overlay */
+            display: none; 
             justify-content: center;
             align-items: center;
         }
+        
+        /* Styles for the 3D canvas background */
+        #bg-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        /* Ensure content is on top of the canvas */
+        .content-overlay {
+            position: relative;
+            z-index: 1;
+        }
+
         .timeline-item::before {
             content: '';
             position: absolute;
@@ -41,6 +58,10 @@
             background-color: #2563eb;
             border-radius: 50%;
             border: 4px solid #ffffff;
+            transition: transform 0.3s ease;
+        }
+        .timeline-item:hover::before {
+            transform: scale(1.2);
         }
         .timeline-line {
             position: absolute;
@@ -58,7 +79,28 @@
         }
         .skill-bar {
             background-color: #60a5fa;
+            width: 0%; /* Start at 0 width for animation */
+            transition: width 1.5s cubic-bezier(0.25, 1, 0.5, 1);
         }
+        .software-tag {
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .software-tag:hover {
+            background-color: #1f2937;
+            transform: translateY(-2px);
+        }
+        
+        /* Animation for elements scrolling into view */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         @keyframes shake {
           10%, 90% { transform: translate3d(-1px, 0, 0); }
           20%, 80% { transform: translate3d(2px, 0, 0); }
@@ -72,7 +114,6 @@
 </head>
 <body class="antialiased text-gray-800">
 
-    <!-- To re-enable the password, change 'display: none' to 'display: flex' in the #password-overlay style above -->
     <div id="password-overlay">
         <div class="bg-gray-800 p-8 rounded-lg shadow-xl text-center">
             <h2 class="text-white text-xl mb-4 font-semibold">Password required.</h2>
@@ -89,137 +130,140 @@
             <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
                 <div class="grid grid-cols-1 lg:grid-cols-3">
                     <!-- Left Column -->
-                    <div class="col-span-1 bg-gray-900 text-white p-8 flex flex-col">
-                        <div class="text-center">
-                            <div class="w-32 h-32 rounded-full bg-blue-600 mx-auto mb-4 flex items-center justify-center text-5xl font-bold border-4 border-gray-700">
-                                MR
-                            </div>
-                            <h1 class="text-3xl font-bold text-white">Mario Ruiz</h1>
-                            <h2 class="text-xl font-light text-blue-300">Designer/ Product Developer/ 3D Visualizer</h2>
-                        </div>
-
-                        <hr class="my-8 border-gray-700">
-
-                        <div>
-                            <h3 class="text-lg font-semibold text-blue-300 uppercase tracking-wider mb-4">Contact</h3>
-                            <div class="space-y-3 text-sm">
-                                <div class="flex items-center">
-                                    <i class="fas fa-phone w-6 text-blue-400"></i>
-                                    <span>+1 437-838-3936</span>
+                    <div class="col-span-1 bg-gray-900 text-white p-8 flex flex-col relative overflow-hidden">
+                        <!-- 3D Canvas Background -->
+                        <canvas id="bg-canvas"></canvas>
+                        <div class="content-overlay flex flex-col flex-grow">
+                            <div class="text-center">
+                                <div class="w-32 h-32 rounded-full bg-blue-600 mx-auto mb-4 flex items-center justify-center text-5xl font-bold border-4 border-gray-700">
+                                    MR
                                 </div>
-                                <div class="flex items-center">
-                                    <i class="fas fa-envelope w-6 text-blue-400"></i>
-                                    <span>mr.ruiz624@gmail.com</span>
-                                </div>
-                                <div class="flex items-center">
-                                    <i class="fas fa-map-marker-alt w-6 text-blue-400"></i>
-                                    <span>Burlington, ON</span>
-                                </div>
-                                <div class="flex items-center">
-                                    <i class="fab fa-linkedin w-6 text-blue-400"></i>
-                                    <a href="https://www.linkedin.com/in/marioruiz3d/" target="_blank" class="hover:text-blue-300 transition-colors">linkedin.com/in/marioruiz3d</a>
-                                </div>
-                                 <div class="flex items-center">
-                                    <i class="fa-solid fa-info-circle w-6 text-blue-400"></i>
-                                    <a href="https://profile.indeed.com/p/marior-db4w8bm" target="_blank" class="hover:text-blue-300 transition-colors">Indeed Profile</a>
-                                 </div>
+                                <h1 class="text-3xl font-bold text-white">Mario Ruiz</h1>
+                                <h2 class="text-xl font-light text-blue-300">Designer/ Product Developer/ 3D Visualizer</h2>
                             </div>
-                        </div>
-                        
-                        <hr class="my-8 border-gray-700">
 
-                        <div>
-                            <h3 class="text-lg font-semibold text-blue-300 uppercase tracking-wider mb-4">Languages</h3>
-                            <div class="space-y-1 text-sm">
-                                <p><strong>English:</strong> Native</p>
-                                <p><strong>Spanish / Portuguese:</strong> Professional</p>
-                                <p><strong>French / Italian:</strong> Intermediate</p>
+                            <hr class="my-8 border-gray-700">
+
+                            <div>
+                                <h3 class="text-lg font-semibold text-blue-300 uppercase tracking-wider mb-4">Contact</h3>
+                                <div class="space-y-3 text-sm">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-phone w-6 text-blue-400"></i>
+                                        <span>+1 437-838-3936</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-envelope w-6 text-blue-400"></i>
+                                        <span>mr.ruiz624@gmail.com</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-map-marker-alt w-6 text-blue-400"></i>
+                                        <span>Burlington, ON</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fab fa-linkedin w-6 text-blue-400"></i>
+                                        <a href="https://www.linkedin.com/in/marioruiz3d/" target="_blank" class="hover:text-blue-300 transition-colors">linkedin.com/in/marioruiz3d</a>
+                                    </div>
+                                     <div class="flex items-center">
+                                        <i class="fa-solid fa-info-circle w-6 text-blue-400"></i>
+                                        <a href="https://profile.indeed.com/p/marior-db4w8bm" target="_blank" class="hover:text-blue-300 transition-colors">Indeed Profile</a>
+                                     </div>
+                                </div>
                             </div>
-                        </div>
+                            
+                            <hr class="my-8 border-gray-700">
 
-                        <hr class="my-8 border-gray-700">
-
-                        <div>
-                            <h3 class="text-lg font-semibold text-blue-300 uppercase tracking-wider mb-4">Software</h3>
-                            <div class="flex flex-wrap gap-2 text-xs">
-                                <span class="bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">SolidWorks</span>
-                                <span class="bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">Rhino</span>
-                                <span class="bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">Fusion 360</span>
-                                <span class="bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">Blender</span>
-                                <span class="bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">KeyShot</span>
-                                <span class="bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">Unreal Engine</span>
-                                <span class="bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">Adobe Suite</span>
-                                <span class="bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">Figma</span>
-                                <span class="bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">MidJourney</span>
-                                <span class="bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">Vizcom</span>
-                                <span class="bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">Krea</span>
-                                <span class="bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">ChatGPT</span>
-                                <span class="bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">Sora</span>
+                            <div>
+                                <h3 class="text-lg font-semibold text-blue-300 uppercase tracking-wider mb-4">Languages</h3>
+                                <div class="space-y-1 text-sm">
+                                    <p><strong>English:</strong> Native</p>
+                                    <p><strong>Spanish / Portuguese:</strong> Professional</p>
+                                    <p><strong>French / Italian:</strong> Intermediate</p>
+                                </div>
                             </div>
-                        </div>
 
-                        <hr class="my-8 border-gray-700">
+                            <hr class="my-8 border-gray-700">
 
-                        <div>
-                            <h3 class="text-lg font-semibold text-blue-300 uppercase tracking-wider mb-4">Core Competencies</h3>
-                            <ul class="space-y-2 text-sm">
-                                <li class="flex items-center"><i class="fa-solid fa-check w-5 text-blue-400"></i>User-Centered Design (UCD) & Ergonomics</li>
-                                <li class="flex items-center"><i class="fa-solid fa-check w-5 text-blue-400"></i>CAD, Surface Design & Visualization</li>
-                                <li class="flex items-center"><i class="fa-solid fa-check w-5 text-blue-400"></i>Color, Materials, Finish (CMF)</li>
-                                <li class="flex items-center"><i class="fa-solid fa-check w-5 text-blue-400"></i>DFM & Rapid Prototyping</li>
-                                <li class="flex items-center"><i class="fa-solid fa-check w-5 text-blue-400"></i>Project Management</li>
-                                <li class="flex items-center"><i class="fa-solid fa-check w-5 text-blue-400"></i>Kaizen & Lean Manufacturing</li>
+                            <div>
+                                <h3 class="text-lg font-semibold text-blue-300 uppercase tracking-wider mb-4">Software</h3>
+                                <div class="flex flex-wrap gap-2 text-xs">
+                                    <span class="software-tag bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">SolidWorks</span>
+                                    <span class="software-tag bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">Rhino</span>
+                                    <span class="software-tag bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">Fusion 360</span>
+                                    <span class="software-tag bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">Blender</span>
+                                    <span class="software-tag bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">KeyShot</span>
+                                    <span class="software-tag bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">Unreal Engine</span>
+                                    <span class="software-tag bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">Adobe Suite</span>
+                                    <span class="software-tag bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">Figma</span>
+                                    <span class="software-tag bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">MidJourney</span>
+                                    <span class="software-tag bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">Vizcom</span>
+                                    <span class="software-tag bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">Krea</span>
+                                    <span class="software-tag bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">ChatGPT-4</span>
+                                    <span class="software-tag bg-gray-700 text-white font-medium px-2.5 py-1 rounded-full">Sora</span>
+                                </div>
+                            </div>
 
-                            </ul>
-                        </div>
+                            <hr class="my-8 border-gray-700">
 
-                        <hr class="my-8 border-gray-700">
-                        
-                        <h3 class="text-lg font-semibold text-blue-300 uppercase tracking-wider mb-4">Skill Proficiency</h3>
-                            <div class="space-y-3 text-sm">
-                                <div>
+                            <div>
+                                <h3 class="text-lg font-semibold text-blue-300 uppercase tracking-wider mb-4">Core Competencies</h3>
+                                <ul class="space-y-2 text-sm">
+                                    <li class="flex items-center"><i class="fa-solid fa-check w-5 text-blue-400"></i>User-Centered Design (UCD) & Ergonomics</li>
+                                    <li class="flex items-center"><i class="fa-solid fa-check w-5 text-blue-400"></i>CAD, Surface Design & Visualization</li>
+                                    <li class="flex items-center"><i class="fa-solid fa-check w-5 text-blue-400"></i>Color, Materials, Finish (CMF)</li>
+                                    <li class="flex items-center"><i class="fa-solid fa-check w-5 text-blue-400"></i>DFM & Rapid Prototyping</li>
+                                    <li class="flex items-center"><i class="fa-solid fa-check w-5 text-blue-400"></i>Project Management</li>
+                                    <li class="flex items-center"><i class="fa-solid fa-check w-5 text-blue-400"></i>Kaizen & Lean Manufacturing</li>
+                                </ul>
+                            </div>
+
+                            <hr class="my-8 border-gray-700">
+                            
+                            <h3 class="text-lg font-semibold text-blue-300 uppercase tracking-wider mb-4">Skill Proficiency</h3>
+                            <div class="space-y-4 text-sm">
+                                <div class="animate-on-scroll">
                                     <p class="mb-1">3D CAD (SolidWorks, Rhino, SketchUp, Max)</p>
                                     <div class="w-full skill-bar-bg rounded-full h-2.5">
-                                        <div class="skill-bar h-2.5 rounded-full" style="width: 95%"></div>
+                                        <div class="skill-bar h-2.5 rounded-full" data-width="95%"></div>
                                     </div>
                                 </div>
-                                <div>
+                                <div class="animate-on-scroll">
                                     <p class="mb-1">Rendering (KeyShot, Corona, Blender, Unreal)</p>
                                     <div class="w-full skill-bar-bg rounded-full h-2.5">
-                                        <div class="skill-bar h-2.5 rounded-full" style="width: 85%"></div>
+                                        <div class="skill-bar h-2.5 rounded-full" data-width="85%"></div>
                                     </div>
                                 </div>
-                                <div>
+                                <div class="animate-on-scroll">
                                     <p class="mb-1">Graphics & UXUI (Figma, Framer, WP, WebFlow)</p>
                                     <div class="w-full skill-bar-bg rounded-full h-2.5">
-                                        <div class="skill-bar h-2.5 rounded-full" style="width: 80%"></div>
+                                        <div class="skill-bar h-2.5 rounded-full" data-width="80%"></div>
                                     </div>
                                 </div>
-                                 <div>
+                                 <div class="animate-on-scroll">
                                     <p class="mb-1">AI-Assisted Workflow (Vizcom, MJ, Krea, Kive, Flow)</p>
                                     <div class="w-full skill-bar-bg rounded-full h-2.5">
-                                        <div class="skill-bar h-2.5 rounded-full" style="width: 90%"></div>
+                                        <div class="skill-bar h-2.5 rounded-full" data-width="90%"></div>
                                     </div>
                                  </div>
-                                <div>
+                                <div class="animate-on-scroll">
                                     <p class="mb-1">Project Management / Lean Manufacturing / Continuous Improvement</p>
                                     <div class="w-full skill-bar-bg rounded-full h-2.5">
-                                        <div class="skill-bar h-2.5 rounded-full" style="width: 90%"></div>
+                                        <div class="skill-bar h-2.5 rounded-full" data-width="90%"></div>
                                     </div>
                                  </div>
                             </div>
                         </div>
+                    </div>
 
                     <!-- Right Column -->
                     <div class="col-span-1 lg:col-span-2 p-8 lg:p-12">
-                        <div class="mb-10">
+                        <div class="mb-10 animate-on-scroll">
                             <h3 class="text-2xl font-bold text-gray-800 border-b-4 border-blue-600 pb-2 mb-4">Professional Summary</h3>
                             <p class="text-gray-600 leading-relaxed">
                                  Passionate Industrial Designer crafting efficient, high-performing products that balance functionality, user experience, and form. Experienced in mobility solutions, modular structures, robotics, and architectural products, applying mechanical and ergonomic principles with expertise in automotive-inspired surfaces. Skilled in 3D modeling, rapid prototyping, and AI-assisted workflows, focusing on hard surface and organic forms.
                             </p>
                         </div>
 
-                        <div class="mb-10">
+                        <div class="mb-10 animate-on-scroll">
                             <h3 class="text-2xl font-bold text-gray-800 border-b-4 border-blue-600 pb-2 mb-8">Work Experience</h3>
                             <div class="relative pl-10">
                                 <div class="timeline-item relative mb-8">
@@ -256,7 +300,6 @@
                                         <li>Designed CNC and laser-cut profiles, optimizing tooling that reduced material waste by over 10% and improved prototype precision</li>
                                         <li>Contributed to the Continuous Improvement Committee, proposing and implementing initiatives that reduced errors and streamlined processes</li>
                                         <li>Created 2D graphics, safety signage, and visual assets from CAD models for global trade show displays and presentations</li>
-
                                     </ul>
                                 </div>
                                 <div class="timeline-item relative">
@@ -270,7 +313,7 @@
                             </div>
                         </div>
 
-                        <div>
+                        <div class="animate-on-scroll">
                             <h3 class="text-2xl font-bold text-gray-800 border-b-4 border-blue-600 pb-2 mb-6">Education</h3>
                             <div class="space-y-4">
                                 <div>
@@ -297,48 +340,127 @@
     </div>
 
     <script>
-        // The script for the password functionality is still here.
-        // It will not run as long as the password overlay is hidden via CSS.
         window.onload = function() {
+            // --- Password Protection Script (currently inactive) ---
             const passwordForm = document.getElementById('password-form');
             const passwordInput = document.getElementById('password-input');
             const errorMessage = document.getElementById('error-message');
             const passwordOverlay = document.getElementById('password-overlay');
             const mainContent = document.getElementById('main-content');
             
-            // Focus on the input field when the page loads
-            passwordInput.focus();
+            if (passwordForm) {
+                passwordInput.focus();
+                passwordForm.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    if (passwordInput.value.toLowerCase() === 'mariodesigns') {
+                        passwordOverlay.style.transition = 'opacity 0.5s ease-out';
+                        passwordOverlay.style.opacity = '0';
+                        setTimeout(() => {
+                            passwordOverlay.style.display = 'none';
+                            mainContent.style.display = 'block';
+                        }, 500);
+                    } else {
+                        errorMessage.style.display = 'block';
+                        passwordInput.value = '';
+                        passwordOverlay.querySelector('div').classList.add('animate-shake');
+                        setTimeout(() => {
+                            passwordOverlay.querySelector('div').classList.remove('animate-shake');
+                        }, 600);
+                    }
+                });
+            }
 
-            passwordForm.addEventListener('submit', function(event) {
-                // Prevent the default form submission behavior
-                event.preventDefault();
+            // --- "Epic" Animations Script ---
 
-                // Check if the entered password is correct.
-                // The toLowerCase() method makes the check case-insensitive.
-                if (passwordInput.value.toLowerCase() === 'mariodesigns') {
-                    // Hide the password overlay with a fade-out effect
-                    passwordOverlay.style.transition = 'opacity 0.5s ease-out';
-                    passwordOverlay.style.opacity = '0';
-                    
-                    // After the fade-out, hide it completely and show the main content
-                    setTimeout(() => {
-                        passwordOverlay.style.display = 'none';
-                        mainContent.style.display = 'block';
-                    }, 500); // 500ms matches the transition duration
+            // 1. Scroll Animations using Intersection Observer
+            const scrollElements = document.querySelectorAll('.animate-on-scroll');
+            const skillBars = document.querySelectorAll('.skill-bar');
 
-                } else {
-                    // Show error message, clear the input, and shake the form for feedback
-                    errorMessage.style.display = 'block';
-                    passwordInput.value = '';
-                    // The shake effect is applied to the container, not the overlay itself
-                    passwordOverlay.querySelector('div').classList.add('animate-shake');
-                    
-                    // Remove shake animation class after it finishes
-                    setTimeout(() => {
-                        passwordOverlay.querySelector('div').classList.remove('animate-shake');
-                    }, 600);
-                }
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        
+                        // Special handling for skill bars to trigger their animation
+                        if (entry.target.querySelector('.skill-bar')) {
+                             entry.target.querySelectorAll('.skill-bar').forEach(bar => {
+                                bar.style.width = bar.dataset.width;
+                             });
+                        }
+                    }
+                });
+            }, {
+                threshold: 0.1 // Trigger when 10% of the element is visible
             });
+
+            scrollElements.forEach(el => {
+                observer.observe(el);
+            });
+
+
+            // 2. Three.js Particle Background Animation
+            const canvas = document.getElementById('bg-canvas');
+            if (canvas) {
+                const scene = new THREE.Scene();
+                const camera = new THREE.PerspectiveCamera(75, canvas.parentElement.offsetWidth / canvas.parentElement.offsetHeight, 0.1, 1000);
+                const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
+
+                renderer.setSize(canvas.parentElement.offsetWidth, canvas.parentElement.offsetHeight);
+                renderer.setPixelRatio(window.devicePixelRatio);
+
+                camera.position.z = 5;
+
+                const particleCount = 2000;
+                const particles = new THREE.BufferGeometry();
+                const positions = new Float32Array(particleCount * 3);
+
+                for (let i = 0; i < particleCount * 3; i++) {
+                    positions[i] = (Math.random() - 0.5) * 10;
+                }
+
+                particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+                const particleMaterial = new THREE.PointsMaterial({
+                    color: 0x40a9ff, // A nice blue color
+                    size: 0.015,
+                    transparent: true,
+                    blending: THREE.AdditiveBlending
+                });
+
+                const particleSystem = new THREE.Points(particles, particleMaterial);
+                scene.add(particleSystem);
+
+                let mouseX = 0, mouseY = 0;
+                document.addEventListener('mousemove', (event) => {
+                    mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+                    mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+                });
+
+                function animate() {
+                    requestAnimationFrame(animate);
+
+                    // Animate particles
+                    particleSystem.rotation.x += 0.0001;
+                    particleSystem.rotation.y += 0.0002;
+                    
+                    // Make particles react to mouse
+                    camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.05;
+                    camera.position.y += (mouseY * 0.5 - camera.position.y) * 0.05;
+                    camera.lookAt(scene.position);
+
+
+                    renderer.render(scene, camera);
+                }
+
+                animate();
+                
+                // Handle window resize
+                window.addEventListener('resize', () => {
+                    camera.aspect = canvas.parentElement.offsetWidth / canvas.parentElement.offsetHeight;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(canvas.parentElement.offsetWidth, canvas.parentElement.offsetHeight);
+                });
+            }
         };
     </script>
 </body>
