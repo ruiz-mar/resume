@@ -14,10 +14,11 @@
             font-family: 'Inter', sans-serif;
             background-color: #f3f4f6;
         }
-        /* Hides the main content initially */
+        /* Hides the main content initially. To re-enable password, change 'block' back to 'none' */
         #main-content {
-            display: none;
+            display: block;
         }
+        /* To re-enable password, remove the 'display: none;' rule below */
         #password-overlay {
             position: fixed;
             top: 0;
@@ -26,7 +27,7 @@
             height: 100vh;
             background-color: rgba(17, 24, 39, 0.95); /* A dark background from gray-900 */
             z-index: 1000;
-            display: flex;
+            display: none; /* This line disables the password overlay */
             justify-content: center;
             align-items: center;
         }
@@ -71,6 +72,7 @@
 </head>
 <body class="antialiased text-gray-800">
 
+    <!-- To re-enable the password, change 'display: none' to 'display: flex' in the #password-overlay style above -->
     <div id="password-overlay">
         <div class="bg-gray-800 p-8 rounded-lg shadow-xl text-center">
             <h2 class="text-white text-xl mb-4 font-semibold">Password required.</h2>
@@ -86,6 +88,7 @@
         <div class="container mx-auto max-w-6xl p-4 sm:p-6 lg:p-8">
             <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
                 <div class="grid grid-cols-1 lg:grid-cols-3">
+                    <!-- Left Column -->
                     <div class="col-span-1 bg-gray-900 text-white p-8 flex flex-col">
                         <div class="text-center">
                             <div class="w-32 h-32 rounded-full bg-blue-600 mx-auto mb-4 flex items-center justify-center text-5xl font-bold border-4 border-gray-700">
@@ -207,11 +210,12 @@
                             </div>
                         </div>
 
+                    <!-- Right Column -->
                     <div class="col-span-1 lg:col-span-2 p-8 lg:p-12">
                         <div class="mb-10">
                             <h3 class="text-2xl font-bold text-gray-800 border-b-4 border-blue-600 pb-2 mb-4">Professional Summary</h3>
                             <p class="text-gray-600 leading-relaxed">
-                                  Passionate Industrial Designer crafting efficient, high-performing products that balance functionality, user experience, and form. Experienced in mobility solutions, modular structures, robotics, and architectural products, applying mechanical and ergonomic principles with expertise in automotive-inspired surfaces. Skilled in 3D modeling, rapid prototyping, and AI-assisted workflows, focusing on hard surface and organic forms.
+                                 Passionate Industrial Designer crafting efficient, high-performing products that balance functionality, user experience, and form. Experienced in mobility solutions, modular structures, robotics, and architectural products, applying mechanical and ergonomic principles with expertise in automotive-inspired surfaces. Skilled in 3D modeling, rapid prototyping, and AI-assisted workflows, focusing on hard surface and organic forms.
                             </p>
                         </div>
 
@@ -293,7 +297,8 @@
     </div>
 
     <script>
-        // Use window.onload to ensure the entire page is loaded before the script runs.
+        // The script for the password functionality is still here.
+        // It will not run as long as the password overlay is hidden via CSS.
         window.onload = function() {
             const passwordForm = document.getElementById('password-form');
             const passwordInput = document.getElementById('password-input');
