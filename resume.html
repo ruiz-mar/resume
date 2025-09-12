@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mario Ruiz Resume</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Import three.js for 3D animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+        #main-content {
+            display: block;
+        }
+        #password-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(17, 24, 39, 0.95);
+            z-index: 1000;
+            display: none; 
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* Styles for the 3D canvas background */
+        #bg-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        /* Ensure content is on top of the canvas */
+        .content-overlay {
+            position: relative;
+            z-index: 1;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.75rem;
+            top: 0.5rem;
+            width: 1.25rem;
+            height: 1.25rem;
+            background-color: #20B2AA; /* Muted Orange */
+            border-radius: 50%;
+            border: 4px solid #ffffff;
+            transition: transform 0.3s ease;
+        }
+        .timeline-item:hover::before {
+            transform: scale(1.2);
+        }
+        .timeline-line {
+            position: absolute;
+            left: -2.2rem;
+            top: 1.75rem;
+            bottom: -1rem;
+            width: 2px;
+            background-color: #d1d5db;
+        }
+        .timeline-item:last-child .timeline-line {
+            display: none;
+        }
+        .skill-bar-bg {
+            background-color: #4a5568;
+        }
+        .skill-bar {
+            background-color: #20B2AA; /* Muted Orange */
+            width: 0%; /* Start at 0 width for animation */
+            transition: width 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        
+        /* Animation for elements scrolling into view */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes shake {
+          10%, 90% { transform: translate3d(-1px, 0, 0); }
+          20%, 80% { transform: translate3d(2px, 0, 0); }
+          30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+          40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+        .animate-shake {
+          animation: shake 0.6s cubic-bezier(.36,.07,.19,.97) both;
+        }
+    </style>
+</head>
+<body class="antialiased text-gray-800">
+
+    <div id="password-overlay">
+        <div class="bg-gray-800 p-8 rounded-lg shadow-xl text-center">
+            <h2 class="text-white text-xl mb-4 font-semibold">Password required.</h2>
+            <form id="password-form">
+                <input type="password" id="password-input" class="bg-gray-700 text-white rounded-md px-4 py-2 w-full mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Password...">
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-md transition-colors w-full">Enter</button>
+            </form>
+            <p id="error-message" class="text-red-400 mt-3 text-sm" style="display: none;">Wrong password. Try again</p>
+        </div>
+    </div>
+    
+    <div id="main-content">
+        <div class="container mx-auto max-w-6xl p-4 sm:p-6 lg:p-8">
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-3">
+                    <!-- Left Column -->
+                    <div class="col-span-1 bg-gradient-to-br from-gray-900 to-gray-800 text-white p-10 flex flex-col relative overflow-hidden">
+                        <!-- 3D Canvas Background -->
+                        <canvas id="bg-canvas"></canvas>
+                        <div class="content-overlay flex flex-col flex-grow">
+                            <div class="text-center">
+                                <div class="w-32 h-32 rounded-full bg-[#20B2AA] mx-auto mb-4 border-4 border-gray-700 overflow-hidden">
+                                    <img src="assets/images/profile-pic.png" alt="Mario Ruiz Profile Picture" class="w-full h-full object-cover">
+                                </div>
+                                <h1 class="text-3xl font-bold text-[#20B2AA]">Mario Ruiz</h1>
+                                <h2 class="text-xl font-light text-white">Industrial Designer • Product Developer • 3D Visualizer</h2>
+                            </div>
+
+                            <hr class="my-8 border-0 border-t border-[#20B2AA]">
+
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-300 uppercase tracking-wider mb-4">Contact</h3>
+                                <div class="space-y-3 text-sm">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-phone w-6 text-[#20B2AA] mr-1"></i>
+                                        <span>+1 437-838-3936</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-envelope w-6 text-[#20B2AA] mr-1"></i>
+                                        <span>mr.ruiz624@gmail.com</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-map-marker-alt w-6 text-[#20B2AA] mr-1"></i>
+                                        <span>Burlington GTA, ON</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fab fa-linkedin w-6 text-[#20B2AA] mr-1"></i>
+                                        <a href="https://www.linkedin.com/in/marioruiz3d/" target="_blank" class="hover:text-[#20B2AA] transition-colors">linkedin.com/in/marioruiz3d</a>
+                                    </div>
+                                     <div class="flex items-center">
+                                        <i class="fa-solid fa-info-circle w-6 text-[#20B2AA] mr-1"></i>
+                                        <a href="https://profile.indeed.com/p/marior-db4w8bm" target="_blank" class="hover:text-[#20B2AA] transition-colors">Full Resume (Indeed)</a>
+                                     </div>
+                                    <div class="flex items-center">
+										<i class="fa-solid fa-globe w-6 text-[#20B2AA] mr-1"></i> <!-- Changed this line -->
+										<a href="https://marioruizdesign.myportfolio.com/" target="_blank" class="hover:text-[#20B2AA] transition-colors">Web Portfolio</a>
+									</div>
+                                </div>
+                            </div>
+                            
+                            <hr class="my-8 border-0 border-t border-[#20B2AA]">
+
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-300 uppercase tracking-wider mb-4">Languages</h3>
+                                <div class="space-y-1 text-sm">
+                                    <p><strong>English:</strong> Native</p>
+                                    <p><strong>Spanish & Portuguese:</strong> Professional</p>
+                                    <p><strong>French & Italian:</strong> Intermediate</p>
+                                </div>
+                            </div>
+
+                            <hr class="my-8 border-0 border-t border-[#20B2AA]">
+
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-300 uppercase tracking-wider mb-4">Software</h3>
+                                <div class="flex flex-wrap gap-2 text-xs">
+                                    <span class="bg-gray-800 border border-gray-700 text-white font-medium px-2.5 py-1 rounded-full transition-all duration-300 hover:bg-[#20B2AA] hover:border-[#20B2AA] hover:text-gray-900">SolidWorks</span>
+                                    <span class="bg-gray-800 border border-gray-700 text-white font-medium px-2.5 py-1 rounded-full transition-all duration-300 hover:bg-[#20B2AA] hover:border-[#20B2AA] hover:text-gray-900">Rhino</span>
+                                    <span class="bg-gray-800 border border-gray-700 text-white font-medium px-2.5 py-1 rounded-full transition-all duration-300 hover:bg-[#20B2AA] hover:border-[#20B2AA] hover:text-gray-900">Fusion 360</span>
+                                    <span class="bg-gray-800 border border-gray-700 text-white font-medium px-2.5 py-1 rounded-full transition-all duration-300 hover:bg-[#20B2AA] hover:border-[#20B2AA] hover:text-gray-900">Blender</span>
+                                    <span class="bg-gray-800 border border-gray-700 text-white font-medium px-2.5 py-1 rounded-full transition-all duration-300 hover:bg-[#20B2AA] hover:border-[#20B2AA] hover:text-gray-900">KeyShot</span>
+                                    <span class="bg-gray-800 border border-gray-700 text-white font-medium px-2.5 py-1 rounded-full transition-all duration-300 hover:bg-[#20B2AA] hover:border-[#20B2AA] hover:text-gray-900">Unreal Engine</span>
+                                    <span class="bg-gray-800 border border-gray-700 text-white font-medium px-2.5 py-1 rounded-full transition-all duration-300 hover:bg-[#20B2AA] hover:border-[#20B2AA] hover:text-gray-900">Adobe Suite</span>
+                                    <span class="bg-gray-800 border border-gray-700 text-white font-medium px-2.5 py-1 rounded-full transition-all duration-300 hover:bg-[#20B2AA] hover:border-[#20B2AA] hover:text-gray-900">Figma</span>
+                                    <span class="bg-gray-800 border border-gray-700 text-white font-medium px-2.5 py-1 rounded-full transition-all duration-300 hover:bg-[#20B2AA] hover:border-[#20B2AA] hover:text-gray-900">MidJourney</span>
+                                    <span class="bg-gray-800 border border-gray-700 text-white font-medium px-2.5 py-1 rounded-full transition-all duration-300 hover:bg-[#20B2AA] hover:border-[#20B2AA] hover:text-gray-900">Vizcom</span>
+                                    <span class="bg-gray-800 border border-gray-700 text-white font-medium px-2.5 py-1 rounded-full transition-all duration-300 hover:bg-[#20B2AA] hover:border-[#20B2AA] hover:text-gray-900">Krea</span>
+                                    <span class="bg-gray-800 border border-gray-700 text-white font-medium px-2.5 py-1 rounded-full transition-all duration-300 hover:bg-[#20B2AA] hover:border-[#20B2AA] hover:text-gray-900">ChatGPT</span>
+                                    <span class="bg-gray-800 border border-gray-700 text-white font-medium px-2.5 py-1 rounded-full transition-all duration-300 hover:bg-[#20B2AA] hover:border-[#20B2AA] hover:text-gray-900">Flow</span>
+                                </div>
+                            </div>
+
+                            <hr class="my-8 border-0 border-t border-[#20B2AA]">
+
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-300 uppercase tracking-wider mb-4">Core Competencies</h3>
+                                <ul class="space-y-2 text-sm">
+                                    <li class="flex items-center"><i class="fa-solid fa-check w-5 text-[#20B2AA]"></i>User-Centered Design (UCD) & Ergonomics</li>
+                                    <li class="flex items-center"><i class="fa-solid fa-check w-5 text-[#20B2AA]"></i>CAD, Surface Design & Visualization</li>
+                                    <li class="flex items-center"><i class="fa-solid fa-check w-5 text-[#20B2AA]"></i>Color, Materials, Finish (CMF)</li>
+                                    <li class="flex items-center"><i class="fa-solid fa-check w-5 text-[#20B2AA]"></i>Design for Manufacturing & Rapid Prototyping</li>
+                                    <li class="flex items-center"><i class="fa-solid fa-check w-5 text-[#20B2AA]"></i>Project Management</li>
+                                    <li class="flex items-center"><i class="fa-solid fa-check w-5 text-[#20B2AA]"></i>Kaizen & Lean Manufacturing</li>
+                                </ul>
+                            </div>
+                            
+                            <hr class="my-8 border-0 border-t border-[#20B2AA]">
+
+                            <div class="">
+                                <h3 class="text-lg font-semibold text-gray-300 uppercase tracking-wider mb-4">Skill Proficiency</h3>
+                                <div class="space-y-4 text-sm">
+                                    <div class="animate-on-scroll">
+                                        <p class="mb-1">3D CAD (SolidWorks, Rhino, SketchUp, 3ds Max)</p>
+                                        <div class="w-full skill-bar-bg rounded-full h-2.5">
+                                            <div class="skill-bar h-2.5 rounded-full" data-width="95%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="animate-on-scroll">
+                                        <p class="mb-1">Rendering (KeyShot, Corona, Blender, Twinmotion, Unreal Engine)</p>
+                                        <div class="w-full skill-bar-bg rounded-full h-2.5">
+                                            <div class="skill-bar h-2.5 rounded-full" data-width="85%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="animate-on-scroll">
+                                        <p class="mb-1">Design AI-Assisted Workflow (Vizcom, MidJourney, Krea, Kive, Flow)</p>
+                                        <div class="w-full skill-bar-bg rounded-full h-2.5">
+                                            <div class="skill-bar h-2.5 rounded-full" data-width="80%"></div>
+                                        </div>
+                                    </div>
+                                     <div class="animate-on-scroll">
+                                        <p class="mb-1">Graphic Design & UX/UI (Figma, Framer, Webflow)</p>
+                                        <div class="w-full skill-bar-bg rounded-full h-2.5">
+                                            <div class="skill-bar h-2.5 rounded-full" data-width="90%"></div>
+                                        </div>
+                                     </div>
+                                    <div class="animate-on-scroll">
+                                        <p class="mb-1">Project Management • Lean Manufacturing • Continuous Improvement</p>
+                                        <div class="w-full skill-bar-bg rounded-full h-2.5">
+                                            <div class="skill-bar h-2.5 rounded-full" data-width="90%"></div>
+                                        </div>
+                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column -->
+                    <div class="col-span-1 lg:col-span-2 p-8 lg:p-12">
+                        <div class="mb-10 animate-on-scroll">
+                            <h3 class="text-2xl font-bold text-gray-800 border-b-2 border-[#20B2AA] pb-2 mb-4">Professional Summary</h3>
+                            <p class="text-gray-600 leading-relaxed">
+                                Industrial designer and product consultant specializing in modular systems, furniture, and architectural products, with experience in acoustical, office, mobility, and exhibit solutions. I lead projects from concept to final product using CAD, iterative prototyping, and product visualization. My products are functional, reliable, and enjoyable. I see design as a system where every element works together. I collaborate with teams to improve usability and manufacturability, delivering solutions that work in the real world.
+                            </p>
+                        </div>
+
+                        <div class="mb-10 animate-on-scroll">
+                            <h3 class="text-2xl font-bold text-gray-800 border-b-2 border-[#20B2AA] pb-2 mb-8">Work Experience</h3>
+                            <div class="relative pl-10">
+                                <div class="timeline-item group relative mb-8 rounded-lg p-4 transition-colors hover:bg-gray-50">
+                                    <div class="timeline-line"></div>
+                                    <p class="font-medium text-[#20B2AA]">2024 - Present</p>
+                                    <h4 class="text-lg font-bold">Product Design Consultant</h4>
+                                    <p class="text-md text-gray-500 mb-2">Self-Employed - Greater Toronto Area, ON</p>
+                                    <ul class="list-disc list-inside text-gray-600 text-sm space-y-1">
+                                        <li>Design concepts for products, multifunctional furniture, modular homes, and retail displays, collaborating with startups, small businesses, and construction partners.</li>
+                                        <li>Produce photorealistic renders, visualizations, and engineering documentation to assess aesthetics, usability, and integration.</li>
+                                        <li>Conduct material studies and rapid prototyping using 3D printing, CNC, and laser cutting, ensuring designs are optimized for manufacturing.</li>
+                                        <li>Advise on acoustical applications and design integration, supporting product development with startups and small businesses.</li>
+                                    </ul>
+                                </div>
+                                <div class="timeline-item group relative mb-8 rounded-lg p-4 transition-colors hover:bg-gray-50">
+                                    <div class="timeline-line"></div>
+                                    <p class="font-medium text-[#20B2AA]">2023 - 2024</p>
+                                    <h4 class="text-lg font-bold">Lead Industrial Designer - New Product Development</h4>
+                                    <p class="text-md text-gray-500 mb-2">Ezobord/Archifibe Inc. - Toronto, ON</p>
+                                    <ul class="list-disc list-inside text-gray-600 text-sm space-y-1">
+                                        <li>Lead industrial designer for acoustical components in modular furniture systems, ceilings, walls, and lighting elements, from concept to final design.</li>
+                                        <li>Developed and refined prototypes with production teams, ensuring CNC manufacturability and incorporating feedback into CAD designs.</li>
+                                        <li>Created user guides, installation instructions, and technical documentation to support production.</li>
+                                        <li>Produced marketing renderings using KeyShot and other tools for high-quality presentations.</li>
+                                    </ul>
+                                </div>
+                                 <div class="timeline-item group relative mb-8 rounded-lg p-4 transition-colors hover:bg-gray-50">
+                                    <div class="timeline-line"></div>
+                                    <p class="font-medium text-[#20B2AA]">2020 - 2023</p>
+                                    <h4 class="text-lg font-bold">Production Support / CAD Technician</h4>
+                                    <p class="text-md text-gray-500 mb-2">Magna International - Greater Toronto Area, ON</p>
+                                    <ul class="list-disc list-inside text-gray-600 text-sm space-y-1">
+                                        <li>Produced 2D and 3D drawings, assemblies, and Bills of Materials (BOM) for mechanical, robotic, and product components.</li>
+                                        <li>Reviewed and implemented Engineering Change Orders, updating CAD models and documentation.</li>
+                                        <li>Designed and fabricated compliance labels, lamacoids, and signage using CNC and laser equipment.</li>
+                                        <li>Implemented multiple continuous improvements for shop and workers.</li>
+                                    </ul>
+                                </div>
+                                <div class="timeline-item group relative rounded-lg p-4 transition-colors hover:bg-gray-50">
+                                    <p class="font-medium text-[#20B2AA]">2008 - 2020</p>
+                                    <h4 class="text-lg font-bold">Previous Roles</h4>
+                                    <p class="text-md text-gray-500">AWIN Group, C4P Inc., Sheridan College, Toyota</p>
+                                    <ul class="list-disc list-inside text-gray-600 text-sm space-y-1">
+                                        <li>Held roles in product operations, marketing visualization, design software instruction, and new product development.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="animate-on-scroll">
+                            <h3 class="text-2xl font-bold text-gray-800 border-b-2 border-[#20B2AA] pb-2 mb-6">Education</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <p class="font-semibold text-[#20B2AA]">2016-2020</p>
+                                    <h4 class="text-lg font-bold">Bachelor's in Industrial Design</h4>
+                                    <p class="text-md text-gray-500">Humber College - Toronto, ON</p>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-[#20B2AA]">2012-2015</p>
+                                    <h4 class="text-lg font-bold">Advanced Diploma in Graphic Design, VCArts</h4>
+                                    <p class="text-md text-gray-500">Sheridan College - Mississauga, ON</p>
+                                </div>
+                                 <div>
+                                    <p class="font-semibold text-[#20B2AA]">2006-2009</p>
+                                    <h4 class="text-lg font-bold">University Studies in Industrial Engineering/ Management</h4>
+                                    <p class="text-md text-gray-500">University of Waterloo - Waterloo, ON</p>
+                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            // --- Password Protection Script (currently inactive) ---
+            const passwordForm = document.getElementById('password-form');
+            const passwordInput = document.getElementById('password-input');
+            const errorMessage = document.getElementById('error-message');
+            const passwordOverlay = document.getElementById('password-overlay');
+            const mainContent = document.getElementById('main-content');
+            
+            if (passwordForm) {
+                passwordInput.focus();
+                passwordForm.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    if (passwordInput.value.toLowerCase() === 'Global') {
+                        passwordOverlay.style.transition = 'opacity 0.5s ease-out';
+                        passwordOverlay.style.opacity = '0';
+                        setTimeout(() => {
+                            passwordOverlay.style.display = 'none';
+                            mainContent.style.display = 'block';
+                        }, 500);
+                    } else {
+                        errorMessage.style.display = 'block';
+                        passwordInput.value = '';
+                        passwordOverlay.querySelector('div').classList.add('animate-shake');
+                        setTimeout(() => {
+                            passwordOverlay.querySelector('div').classList.remove('animate-shake');
+                        }, 600);
+                    }
+                });
+            }
+
+            // --- "Epic" Animations Script ---
+
+            // 1. Scroll Animations using Intersection Observer
+            const scrollElements = document.querySelectorAll('.animate-on-scroll');
+            const skillBars = document.querySelectorAll('.skill-bar');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        
+                        // Special handling for skill bars to trigger their animation
+                        if (entry.target.querySelector('.skill-bar')) {
+                             entry.target.querySelectorAll('.skill-bar').forEach(bar => {
+                                bar.style.width = bar.dataset.width;
+                             });
+                        }
+                    }
+                });
+            }, {
+                threshold: 0.1 // Trigger when 10% of the element is visible
+            });
+
+            scrollElements.forEach(el => {
+                observer.observe(el);
+            });
+
+
+            // 2. Three.js Subtle Grid Animation
+            const canvas = document.getElementById('bg-canvas');
+            if (canvas) {
+                const scene = new THREE.Scene();
+                const camera = new THREE.PerspectiveCamera(75, canvas.parentElement.offsetWidth / canvas.parentElement.offsetHeight, 0.1, 1000);
+                const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
+
+                renderer.setSize(canvas.parentElement.offsetWidth, canvas.parentElement.offsetHeight);
+                renderer.setPixelRatio(window.devicePixelRatio);
+
+                camera.position.z = 10;
+
+                // Create a subtle gray grid
+                const gridColor = 0x555555; // A neutral gray
+                const gridHelper = new THREE.GridHelper(40, 40, gridColor, gridColor);
+                gridHelper.rotation.x = Math.PI / 3; // Tilt the grid for a nice perspective
+                scene.add(gridHelper);
+                
+                let mouseX = 0, mouseY = 0;
+                document.addEventListener('mousemove', (event) => {
+                    mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+                    mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+                });
+
+                function animate() {
+                    requestAnimationFrame(animate);
+
+                    // Very slowly rotate the grid
+                    gridHelper.rotation.y += 0.0001;
+
+                    // Make camera react to mouse very subtly
+                    camera.position.x += (mouseX * 0.2 - camera.position.x) * 0.02;
+                    camera.position.y += (mouseY * 0.2 - camera.position.y) * 0.02;
+                    camera.lookAt(scene.position);
+
+
+                    renderer.render(scene, camera);
+                }
+
+                animate();
+                
+                // Handle window resize
+                window.addEventListener('resize', () => {
+                    camera.aspect = canvas.parentElement.offsetWidth / canvas.parentElement.offsetHeight;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(canvas.parentElement.offsetWidth, canvas.parentElement.offsetHeight);
+                });
+            }
+        };
+    </script>
+</body>
+</html>
+
