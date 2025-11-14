@@ -9,112 +9,43 @@
         gtag('js', new Date());
         gtag('config', 'G-BVZST4N4DQ');
     </script>
-        
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mario Ruiz | Industrial Designer Resume</title>
-    
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
+
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <!-- Three.js for 3D animation -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    
-    <style>
-        /* Custom styles to complement Tailwind CSS */
-        :root {
-            --primary-color: #0891b2; /* Tailwind Cyan 600 */
-            --primary-color-light: #a5f3fc; /* Tailwind Cyan 200 */
-            --dark-bg: #111827; /* Tailwind Gray 900 */
-        }
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r152/three.min.js"></script>
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #e5e7eb; /* Gray 200 */
-        }
-
-        /* --- Timeline Styling --- */
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -2.75rem; /* Position the dot outside the main content flow */
-            top: 0.5rem;
-            width: 1.25rem;
-            height: 1.25rem;
-            background-color: var(--primary-color-light);
-            border-radius: 50%;
-            border: 4px solid white;
-            transition: transform 0.3s ease, background-color 0.3s ease;
-            z-index: 10;
-        }
-
-        .timeline-item:hover::before {
-            transform: scale(1.25);
-            background-color: var(--primary-color);
-        }
-
-        .timeline-line {
-            position: absolute;
-            left: -2.125rem; /* Align with the center of the dot */
-            top: 1.75rem;
-            bottom: -1rem;
-            width: 2px;
-            background-color: #d1d5db; /* Gray 300 */
-        }
-
-        .timeline-item:last-child .timeline-line {
-            display: none; /* No line after the last item */
-        }
-        
-        /* --- Skill Bar Animation --- */
-        .skill-bar {
-            background-color: var(--primary-color);
-            width: 0%; /* Start at 0 width for animation */
-            transition: width 1.5s cubic-bezier(0.25, 1, 0.5, 1);
-        }
-        
-        /* --- Scroll Animation --- */
-        .animate-on-scroll {
-            opacity: 0;
-            transform: translateY(2rem);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-
-        .animate-on-scroll.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* --- 3D Canvas Background --- */
-        #bg-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            opacity: 0.3; /* Make it more subtle */
-        }
-
-        .content-overlay {
-            position: relative;
-            z-index: 1;
-        }
-    </style>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/resume.css">
 </head>
 <body class="antialiased text-gray-800">
 
+    <!-- scroll progress bar -->
+    <div class="top-progress">
+        <div id="scroll-progress" class="top-progress-bar"></div>
+    </div>
+
     <main id="main-content">
         <div class="container mx-auto max-w-7xl p-4 sm:p-6 lg:p-8">
-            <div class="bg-white rounded-2xl shadow-2xl overflow-hidden">
+            <div class="resume-shell bg-white rounded-2xl shadow-2xl overflow-hidden relative">
+                <!-- dark mode toggle -->
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                    <i class="fa-solid fa-sun theme-icon"></i>
+                </button>
+
                 <div class="grid grid-cols-1 lg:grid-cols-3">
                     
                     <!-- Left Column (Sidebar) -->
@@ -123,157 +54,181 @@
                         <div class="content-overlay flex flex-col flex-grow">
                             
                             <!-- Profile Header -->
-                            <div class="text-center mb-8">
-                                <img src="assets/images/profile-pic.png" alt="Mario Ruiz Profile Picture" class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-gray-700 object-cover shadow-lg">
-                                <h1 class="text-3xl font-bold text-cyan-400">Mario Ruiz</h1>
-                                <h2 class="text-xl font-light text-gray-300">Industrial Designer</h2>
+                            <div class="text-center mb-8 animate-on-scroll">
+                                <img src="assets/images/profile-pic.png" alt="Mario Ruiz Profile Picture" class="profile-photo w-32 h-32 rounded-full mx-auto mb-4 border-4 border-gray-700 object-cover shadow-lg">
+                                <h1 class="text-3xl font-bold text-orange-main section-title">Mario Ruiz</h1>
+                                <h2 class="text-xl font-light text-gray-300">Industrial Designer /</h2>
+                                <h2 class="text-xl font-light text-gray-300">Product Developer</h2>
+
+                                <!-- QR block -->
+                                <div class="qr-block mt-6">
+                                    <a href="https://ruiz-mar.github.io/resume/index.html" target="_blank" aria-label="Open online resume and portfolio">
+                                        <img src="assets/images/resume-qr.png" alt="QR code to online resume and portfolio" class="qr-image mx-auto">
+                                    </a>
+                                    <p class="qr-caption mt-2 text-xs text-gray-300">
+                                        Scan for full resume and portfolio
+                                    </p>
+                                </div>
                             </div>
 
-                            <hr class="my-6 border-gray-700">
+                            <hr class="my-6 border-gray-700 animate-on-scroll">
 
                             <!-- Contact Section -->
-                            <section class="mb-8">
-                                <h3 class="text-lg font-semibold text-gray-300 uppercase tracking-wider mb-4">Contact</h3>
+                            <section class="mb-8 animate-on-scroll">
+                                <h3 class="text-lg font-semibold text-gray-300 uppercase tracking-wider mb-4 section-title">Contact</h3>
                                 <div class="space-y-4 text-sm">
-                                    <a href="tel:+14378383936" class="flex items-center group">
-                                        <i class="fas fa-phone w-6 text-cyan-400 group-hover:text-cyan-300 transition-colors"></i> <span class="group-hover:text-gray-200 transition-colors">+1 437-838-3936</span>
+                                    <a href="tel:+14378383936" class="flex items-center group link-underline">
+                                        <i class="fas fa-phone w-6 text-orange-main group-hover:text-orange-light transition-colors icon-glow"></i>
+                                        <span class="group-hover:text-gray-200 transition-colors ml-1">+1 437 838 3936</span>
                                     </a>
-                                    <a href="mailto:mr.ruiz624@gmail.com" class="flex items-center group">
-                                        <i class="fas fa-envelope w-6 text-cyan-400 group-hover:text-cyan-300 transition-colors"></i> <span class="group-hover:text-gray-200 transition-colors">mr.ruiz624@gmail.com</span>
+                                    <a href="mailto:mr.ruiz624@gmail.com" class="flex items-center group link-underline">
+                                        <i class="fas fa-envelope w-6 text-orange-main group-hover:text-orange-light transition-colors icon-glow"></i>
+                                        <span class="group-hover:text-gray-200 transition-colors ml-1">mr.ruiz624@gmail.com</span>
                                     </a>
                                     <div class="flex items-center">
-                                        <i class="fas fa-map-marker-alt w-6 text-cyan-400"></i> <span>Burlington GTA, ON</span>
+                                        <i class="fas fa-map-marker-alt w-6 text-orange-main icon-glow"></i>
+                                        <span class="ml-1">Burlington GTA, ON</span>
                                     </div>
-                                    <a href="https://www.linkedin.com/in/marioruiz3d/" target="_blank" class="flex items-center group">
-                                        <i class="fab fa-linkedin w-6 text-cyan-400 group-hover:text-cyan-300 transition-colors"></i> <span class="group-hover:text-gray-200 transition-colors">linkedin.com/in/marioruiz3d</span>
+                                    <a href="https://www.linkedin.com/in/marioruiz3d/" target="_blank" class="flex items-center group link-underline">
+                                        <i class="fab fa-linkedin w-6 text-orange-main group-hover:text-orange-light transition-colors icon-glow"></i>
+                                        <span class="group-hover:text-gray-200 transition-colors ml-1">linkedin.com/in/marioruiz3d</span>
                                     </a>
-                                    <a href="https://profile.indeed.com/p/marior-db4w8bm" target="_blank" class="flex items-center group">
-                                        <i class="fa-solid fa-info-circle w-6 text-cyan-400 group-hover:text-cyan-300 transition-colors"></i> <span class="group-hover:text-gray-200 transition-colors">Full Resume (Indeed)</span>
+                                    <a href="https://profile.indeed.com/p/marior-db4w8bm" target="_blank" class="flex items-center group link-underline">
+                                        <i class="fa-solid fa-circle-info w-6 text-orange-main group-hover:text-orange-light transition-colors icon-glow"></i>
+                                        <span class="group-hover:text-gray-200 transition-colors ml-1">Full Resume (Indeed)</span>
                                     </a>
-                                    <a href="https://drive.google.com/drive/folders/1Sr4PWlnRAG6gc3E1PT6GSvFVI0Vw63xq?usp=sharing" target="_blank" class="flex items-center group">
-                                        <i class="fa-solid fa-globe w-6 text-cyan-400 group-hover:text-cyan-300 transition-colors"></i> <span class="group-hover:text-gray-200 transition-colors">Web Portfolio</span>
+                                    <a href="https://drive.google.com/drive/folders/1Sr4PWlnRAG6gc3E1PT6GSvFVI0Vw63xq?usp=sharing" target="_blank" class="flex items-center group link-underline">
+                                        <i class="fa-solid fa-globe w-6 text-orange-main group-hover:text-orange-light transition-colors icon-glow"></i>
+                                        <span class="group-hover:text-gray-200 transition-colors ml-1">Web Portfolio</span>
                                     </a>
                                 </div>
                             </section>
-
-                            <hr class="my-6 border-gray-700">
                             
-                            <!-- Languages Section -->
-                            <section class="mb-8">
-                                <h3 class="text-lg font-semibold text-gray-300 uppercase tracking-wider mb-4">Languages</h3>
-                                <div class="space-y-2 text-sm text-gray-300">
-                                    <p><strong>English:</strong> Native</p>
-                                    <p><strong>Spanish & Portuguese:</strong> Professional</p>
-                                    <p><strong>French & Italian:</strong> Intermediate</p>
-                                </div>
-                            </section>
-                            
-                            <hr class="my-6 border-gray-700">
+                            <hr class="my-6 border-gray-700 animate-on-scroll">
 
                             <!-- Core Competencies Section -->
-                            <section class="mb-8">
-                                <h3 class="text-lg font-semibold text-gray-300 uppercase tracking-wider mb-4">Core Competencies</h3>
+                            <section class="mb-8 animate-on-scroll">
+                                <h3 class="text-lg font-semibold text-gray-300 uppercase tracking-wider mb-4 section-title">Core Competencies</h3>
                                 <ul class="space-y-2 text-sm text-gray-300">
-                                    <li class="flex items-center"><i class="fa-solid fa-check w-5 text-cyan-400"></i>User-Centered Design (UCD)</li>
-                                    <li class="flex items-center"><i class="fa-solid fa-check w-5 text-cyan-400"></i>CAD, Surface Design & Visualization</li>
-                                    <li class="flex items-center"><i class="fa-solid fa-check w-5 text-cyan-400"></i>Color, Materials, Finish (CMF)</li>
-                                    <li class="flex items-center"><i class="fa-solid fa-check w-5 text-cyan-400"></i>Design for Manufacturing</li>
-                                    <li class="flex items-center"><i class="fa-solid fa-check w-5 text-cyan-400"></i>Rapid Prototyping</li>
-                                    <li class="flex items-center"><i class="fa-solid fa-check w-5 text-cyan-400"></i>Lean Manufacturing</li>
+                                    <li class="flex items-center"><i class="fa-solid fa-check w-5 text-orange-main icon-glow"></i><span class="ml-1">User Centered Design (UCD)</span></li>
+                                    <li class="flex items-center"><i class="fa-solid fa-check w-5 text-orange-main icon-glow"></i><span class="ml-1">CAD, Surface Design and Visualization</span></li>
+                                    <li class="flex items-center"><i class="fa-solid fa-check w-5 text-orange-main icon-glow"></i><span class="ml-1">Color, Materials, Finish (CMF)</span></li>
+                                    <li class="flex items-center"><i class="fa-solid fa-check w-5 text-orange-main icon-glow"></i><span class="ml-1">Design for Manufacturing</span></li>
+                                    <li class="flex items-center"><i class="fa-solid fa-check w-5 text-orange-main icon-glow"></i><span class="ml-1">Rapid Prototyping</span></li>
+                                    <li class="flex items-center"><i class="fa-solid fa-check w-5 text-orange-main icon-glow"></i><span class="ml-1">Lean Manufacturing</span></li>
                                 </ul>
                             </section>
 
-                            <hr class="my-6 border-gray-700">
+                            <hr class="my-6 border-gray-700 animate-on-scroll">
 
                             <!-- Skill Proficiency -->
-                            <section class="mb-8">
-                                <h3 class="text-lg font-semibold text-gray-300 uppercase tracking-wider mb-4">Skill Proficiency</h3>
+                            <section class="mb-8 animate-on-scroll">
+                                <h3 class="text-lg font-semibold text-gray-300 uppercase tracking-wider mb-4 section-title">Skill Proficiency</h3>
                                 <div class="space-y-5 text-sm text-gray-300">
-                                    <div class="animate-on-scroll">
-                                        <p class="mb-1">3D CAD (SolidWorks, Rhino, 3ds Max)</p>
-                                        <div class="w-full bg-gray-700 rounded-full h-2">
+                                    <div class="skill-block animate-on-scroll">
+                                        <p class="mb-1">3D CAD (SolidWorks, Rhino, Fusion 360, SolidEdge, Plasticity, 3ds Max)</p>
+                                        <div class="w-full bg-gray-700 rounded-full h-2 overflow-hidden">
                                             <div class="skill-bar h-2 rounded-full" data-width="95%"></div>
                                         </div>
                                     </div>
-                                    <div class="animate-on-scroll">
-                                        <p class="mb-1">Rendering (KeyShot, V-Ray, Blender)</p>
-                                        <div class="w-full bg-gray-700 rounded-full h-2">
+                                    <div class="skill-block animate-on-scroll">
+                                        <p class="mb-1">Rendering (KeyShot, Blender, V-Ray, Corona, Twinmotion)</p>
+                                        <div class="w-full bg-gray-700 rounded-full h-2 overflow-hidden">
                                             <div class="skill-bar h-2 rounded-full" data-width="85%"></div>
                                         </div>
                                     </div>
-                                    <div class="animate-on-scroll">
-                                        <p class="mb-1">AI-Assisted Design (Vizcom, MidJourney)</p>
-                                        <div class="w-full bg-gray-700 rounded-full h-2">
+                                    <div class="skill-block animate-on-scroll">
+                                        <p class="mb-1">AI Assisted Design (Vizcom, Krea, MidJourney, Veo, Sora, Runway)</p>
+                                        <div class="w-full bg-gray-700 rounded-full h-2 overflow-hidden">
                                             <div class="skill-bar h-2 rounded-full" data-width="80%"></div>
                                         </div>
                                     </div>
-                                    <div class="animate-on-scroll">
-                                        <p class="mb-1">Graphic Design & UI (Figma, Framer)</p>
-                                        <div class="w-full bg-gray-700 rounded-full h-2">
+                                    <div class="skill-block animate-on-scroll">
+                                        <p class="mb-1">Graphic Design (Figma, Framer, html, css)</p>
+                                        <div class="w-full bg-gray-700 rounded-full h-2 overflow-hidden">
                                             <div class="skill-bar h-2 rounded-full" data-width="90%"></div>
                                         </div>
+									<div class="skill-block animate-on-scroll">
+                                        <p class="mb-1">UX UI (Figma, Framer, HTML, CSS, WebFlow, WP)</p>
+                                        <div class="w-full bg-gray-700 rounded-full h-2 overflow-hidden">
+                                           <div class="skill-bar h-2 rounded-full" data-width="70%"></div>
+                                        </div>
+                                    </div>
                                     </div>
                                 </div>
                             </section>
-
+                            
+                            <hr class="my-6 border-gray-700 animate-on-scroll">
+                            
+                            <!-- Languages Section -->
+                            <section class="mb-8 animate-on-scroll">
+                                <h3 class="text-lg font-semibold text-gray-300 uppercase tracking-wider mb-4 section-title">Languages</h3>
+                                <div class="space-y-2 text-sm text-gray-300">
+                                    <p><strong>English:</strong> Native</p>
+                                    <p><strong>Spanish and Portuguese:</strong> Professional</p>
+                                    <p><strong>French and Italian:</strong> Intermediate</p>
+                                    <p><strong>German and Chinese Mandarin:</strong> Beginner</p>
+                                </div>
+                            </section>
+                            
                         </div>
                     </aside>
 
                     <!-- Right Column (Main Content) -->
-                    <main class="col-span-1 lg:col-span-2 p-8 lg:p-12 bg-gray-50">
+                    <section class="col-span-1 lg:col-span-2 p-8 lg:p-12 bg-gray-50 main-panel" aria-label="Resume content">
                         <section class="mb-12 animate-on-scroll">
-                            <h3 class="text-3xl font-bold text-gray-800 border-b-2 border-cyan-500 pb-3 mb-4">Professional Summary</h3>
+                            <h3 class="text-3xl font-bold text-gray-800 border-b-2 border-orange-main pb-3 mb-4 section-title">Professional Summary</h3>
                             <p class="text-gray-600 leading-relaxed">
-                                I am an industrial designer working at the intersection of architecture and product design, focusing on modular systems, acoustic elements, and immersive spatial experiences. I use SolidWorks, Rhino, and visualization tools such as 3ds Max, KeyShot, V-Ray, Blender, and Twinmotion to create designs that blend precision, atmosphere, and buildability.
+                                I am a multidisciplinary industrial designer focused on modular systems, performance materials, and product innovation. My work combines advanced CAD and visualization workflows in SolidWorks, Rhino, 3ds Max, and KeyShot with AI driven design tools to create products that merge precision engineering, material performance, and user experience. I am driven by projects that push functionality and durability in sports, tactical, and performance oriented environments.
                             </p>
                         </section>
 
                         <section class="mb-12 animate-on-scroll">
-                            <h3 class="text-3xl font-bold text-gray-800 border-b-2 border-cyan-500 pb-3 mb-8">Work Experience</h3>
-                            <div class="relative pl-10">
+                            <h3 class="text-3xl font-bold text-gray-800 border-b-2 border-orange-main pb-3 mb-8 section-title">Work Experience</h3>
+                            <div class="relative pl-10 timeline-wrapper">
                                 <!-- Experience 1 -->
-                                <article class="timeline-item group relative mb-8 rounded-lg p-4 transition-shadow hover:shadow-md bg-white">
+                                <article class="timeline-item group relative mb-8 rounded-lg p-4 card-hover">
                                     <div class="timeline-line"></div>
-                                    <p class="font-medium text-cyan-600">April 2024 - Present</p>
-                                    <h4 class="text-lg font-bold text-gray-900">3D Designer & Visualization Lead (Freelance)</h4>
-                                    <p class="text-md text-gray-500 mb-2">M33 Design Studio - Greater Toronto Area, ON</p>
-                                    <p class="text-sm text-gray-600 mb-3">Independent design studio focused on architectural, product, spatial, and experiential design, with expertise in 3D development, visualization, and AI-driven concept creation.</p>
+                                    <p class="font-medium text-orange-main">April 2024 to Present</p>
+                                    <h4 class="text-lg font-bold text-gray-900">3D Designer and Visualization Lead (Freelance)</h4>
+                                    <p class="text-sm text-gray-500 mb-2">M33 Design Studio, Greater Toronto Area, ON</p>
+                                    <p class="text-sm text-gray-600 mb-3">Independent design studio focused on architectural, product, spatial, and experiential design, with expertise in 3D development, visualization, and AI driven concept creation.</p>
                                     <ul class="list-disc list-inside text-gray-600 text-sm space-y-1">
-                                      <li>Create modular, parametric 3D models in SolidWorks and Rhino, using Grasshopper for complex organic geometries and family-based design systems.</li>
+                                      <li>Create modular parametric 3D models in SolidWorks and Rhino, using Grasshopper for complex organic geometries and family based design systems.</li>
                                       <li>Collaborate with startups on architectural products, exhibitions, and retail display concepts that merge product, brand, and environment.</li>
-                                      <li>Use AI-based visualization tools to enhance concept development and accelerate design iterations.</li>
+                                      <li>Use AI based visualization tools to enhance concept development and accelerate design iterations.</li>
                                     </ul>
                                 </article>
                                 <!-- Experience 2 -->
-                                <article class="timeline-item group relative mb-8 rounded-lg p-4 transition-shadow hover:shadow-md bg-white">
+                                <article class="timeline-item group relative mb-8 rounded-lg p-4 card-hover">
                                     <div class="timeline-line"></div>
-                                    <p class="font-medium text-cyan-600">April 2023 - April 2024</p>
-                                    <h4 class="text-lg font-bold text-gray-900">Lead Industrial Designer - Acoustic & Lighting Systems</h4>
-                                    <p class="text-md text-gray-500 mb-2">Ezobord / Ayrsonics - Mississauga, ON</p>
+                                    <p class="font-medium text-orange-main">April 2023 to April 2024</p>
+                                    <h4 class="text-lg font-bold text-gray-900">Lead Industrial Designer, Acoustic and Lighting Systems</h4>
+                                    <p class="text-sm text-gray-500 mb-2">Ezobord and Ayrsonics, Mississauga, ON</p>
                                     <ul class="list-disc list-inside text-gray-600 text-sm space-y-1">
                                       <li>Delivered multiple new product lines from concept through prototyping, testing, and manufacturing launch.</li>
                                       <li>Led the design of modular acoustic and lighting systems using advanced PET materials and aluminum components.</li>
-                                      <li>Created detailed CAD models, fabrication drawings, and high-end renderings for production and marketing.</li>
+                                      <li>Created detailed CAD models, fabrication drawings, and high end renderings for production and marketing.</li>
                                     </ul>
                                 </article>
                                 <!-- Experience 3 -->
-                                <article class="timeline-item group relative mb-8 rounded-lg p-4 transition-shadow hover:shadow-md bg-white">
+                                <article class="timeline-item group relative mb-8 rounded-lg p-4 card-hover">
                                     <div class="timeline-line"></div>
-                                    <p class="font-medium text-cyan-600">May 2020 - April 2023</p>
-                                    <h4 class="text-lg font-bold text-gray-900">CAD Designer – Engineering & Product Development</h4>
-                                    <p class="text-md text-gray-500 mb-2">Magna International - Greater Toronto Area, ON</p>
+                                    <p class="font-medium text-orange-main">May 2020 to April 2023</p>
+                                    <h4 class="text-lg font-bold text-gray-900">CAD Designer, Engineering and Product Development</h4>
+                                    <p class="text-sm text-gray-500 mb-2">Magna International, Greater Toronto Area, ON</p>
                                     <ul class="list-disc list-inside text-gray-600 text-sm space-y-1">
                                       <li>Designed mechanical assemblies, tooling, and fixtures in SolidWorks and AutoCAD to support production.</li>
-                                      <li>Improved manufacturability and assembly accuracy through precise documentation and cross-functional collaboration.</li>
+                                      <li>Improved manufacturability and assembly accuracy through precise documentation and cross functional collaboration.</li>
                                       <li>Supported Lean and 5S initiatives that enhanced workflow efficiency and reduced design cycle times.</li>
                                     </ul>
                                 </article>
                                 <!-- Experience 4 -->
-                                <article class="timeline-item group relative mb-8 rounded-lg p-4 transition-shadow hover:shadow-md bg-white">
+                                <article class="timeline-item group relative mb-8 rounded-lg p-4 card-hover">
                                     <div class="timeline-line"></div>
-                                    <p class="font-medium text-cyan-600">2008 - 2020</p>
+                                    <p class="font-medium text-orange-main">2008 to 2020</p>
                                     <h4 class="text-lg font-bold text-gray-900">Previous Roles</h4>
-                                    <p class="text-md text-gray-500 mb-2">AWIN Group, C4P Inc., Sheridan College, Toyota TMMC</p>
+                                    <p class="text-sm text-gray-500 mb-2">AWIN Group, C4P Inc, Sheridan College, Toyota TMMC</p>
                                     <ul class="list-disc list-inside text-gray-600 text-sm space-y-1">
                                       <li>Held roles in visual merchandising, operations, retail visualization, design software instruction, and new product development.</li>
                                     </ul>
@@ -282,26 +237,31 @@
                         </section>
 
                         <section class="animate-on-scroll">
-                            <h3 class="text-3xl font-bold text-gray-800 border-b-2 border-cyan-500 pb-3 mb-6">Education</h3>
+                            <h3 class="text-3xl font-bold text-gray-800 border-b-2 border-orange-main pb-3 mb-6 section-title">Education</h3>
                             <div class="space-y-6">
-                                <article>
-                                    <p class="font-semibold text-cyan-600">2016-2020</p>
-                                    <h4 class="text-lg font-bold">Bachelor's in Industrial Design</h4>
-                                    <p class="text-md text-gray-500">Humber College - Toronto, ON</p>
+                                <article class="card-hover p-3 rounded-lg education-item">
+                                    <p class="font-semibold text-orange-main">2016 to 2020</p>
+                                    <h4 class="text-lg font-bold">Bachelor in Industrial Design, Product and Automotive</h4>
+                                    <p class="text-sm text-gray-500">Humber College, Toronto, ON</p>
                                 </article>
-                                <article>
-                                    <p class="font-semibold text-cyan-600">2012-2015</p>
-                                    <h4 class="text-lg font-bold">Advanced Diploma in Graphic Design & Marketing</h4>
-                                    <p class="text-md text-gray-500">Sheridan College - Mississauga, ON</p>
+                                <article class="card-hover p-3 rounded-lg education-item">
+                                    <p class="font-semibold text-orange-main">2012 to 2015</p>
+                                    <h4 class="text-lg font-bold">Advanced Diploma in Graphic Design and Marketing</h4>
+                                    <p class="text-sm text-gray-500">Sheridan College, Mississauga, ON</p>
                                 </article>
-                                <article>
-                                    <p class="font-semibold text-cyan-600">2006-2009</p>
+                                <article class="card-hover p-3 rounded-lg education-item">
+                                    <p class="font-semibold text-orange-main">2006 to 2009</p>
                                     <h4 class="text-lg font-bold">Industrial Engineering (University Studies)</h4>
-                                    <p class="text-md text-gray-500">University of Waterloo - Waterloo, ON</p>
+                                    <p class="text-sm text-gray-500">University of Waterloo, Waterloo, ON</p>
+                                </article>
+                                <article class="card-hover p-3 rounded-lg education-item">
+                                    <p class="font-semibold text-orange-main">2003 to 2004</p>
+                                    <h4 class="text-lg font-bold">Pre Engineering (University Studies)</h4>
+                                    <p class="text-sm text-gray-500">UCLA Extension, PCC UCLA, Los Angeles, CA</p>
                                 </article>
                             </div>
                         </section>
-                    </main>
+                    </section>
                 </div>
             </div>
         </div>
@@ -309,161 +269,188 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // --- Animations Script ---
+            // page mount fade
+            document.body.classList.add('page-ready');
 
-            // 1. Scroll Animations using Intersection Observer
+            // scroll animations
             const scrollElements = document.querySelectorAll('.animate-on-scroll');
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('is-visible');
                         
-                        // Animate skill bars when their container becomes visible
                         const skillBars = entry.target.querySelectorAll('.skill-bar');
                         skillBars.forEach(bar => {
                             bar.style.width = bar.dataset.width;
                         });
 
-                        // Unobserve after animating to improve performance
                         observer.unobserve(entry.target);
                     }
                 });
             }, {
-                threshold: 0.1 // Trigger when 10% of the element is visible
+                threshold: 0.15
             });
 
-            scrollElements.forEach(el => {
-                observer.observe(el);
-            });
+            scrollElements.forEach(el => observer.observe(el));
 
+            // scroll progress bar
+            const progressBar = document.getElementById('scroll-progress');
+            function updateProgress() {
+                const scrollTop = window.scrollY || window.pageYOffset;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const ratio = docHeight > 0 ? scrollTop / docHeight : 0;
+                progressBar.style.width = (ratio * 100) + '%';
+            }
+            updateProgress();
+            window.addEventListener('scroll', updateProgress);
 
-            // 2. Three.js Interactive Particle Constellation
+            // dark mode toggle
+            const themeToggle = document.getElementById('theme-toggle');
+            const body = document.body;
+
+            function setTheme(mode) {
+                const icon = themeToggle ? themeToggle.querySelector('.theme-icon') : null;
+
+                if (mode === 'dark') {
+                    body.classList.add('theme-dark');
+                    localStorage.setItem('resume-theme', 'dark');
+                    if (icon) {
+                        icon.classList.remove('fa-sun');
+                        icon.classList.add('fa-moon');
+                    }
+                } else {
+                    body.classList.remove('theme-dark');
+                    localStorage.setItem('resume-theme', 'light');
+                    if (icon) {
+                        icon.classList.remove('fa-moon');
+                        icon.classList.add('fa-sun');
+                    }
+                }
+            }
+
+            const storedTheme = localStorage.getItem('resume-theme');
+            if (storedTheme === 'dark') {
+                setTheme('dark');
+            } else {
+                setTheme('light');
+            }
+
+            if (themeToggle) {
+                themeToggle.addEventListener('click', () => {
+                    if (body.classList.contains('theme-dark')) {
+                        setTheme('light');
+                    } else {
+                        setTheme('dark');
+                    }
+                });
+            }
+
+            // three js diagonal noise wave
             const canvas = document.getElementById('bg-canvas');
-            if (canvas && window.innerWidth > 768) { // Only run on larger screens for performance
+
+            if (canvas && window.innerWidth >= 768) {
                 const scene = new THREE.Scene();
                 const parentElement = canvas.parentElement;
-                const camera = new THREE.PerspectiveCamera(75, parentElement.offsetWidth / parentElement.offsetHeight, 0.1, 1000);
-                const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
 
+                const camera = new THREE.PerspectiveCamera(
+                    45,
+                    parentElement.offsetWidth / parentElement.offsetHeight,
+                    0.1,
+                    100
+                );
+
+                const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
                 renderer.setSize(parentElement.offsetWidth, parentElement.offsetHeight);
-                renderer.setPixelRatio(window.devicePixelRatio);
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-                camera.position.z = 20;
+                camera.position.set(0, 5, 35);
 
-                const particlesCount = 200;
-                const positions = new Float32Array(particlesCount * 3);
-                const velocities = [];
-                const connectDistance = 3;
-                const mouseRadius = 2.5;
+                const planeWidth = 30;
+                const planeHeight = 40;
+                const widthSegments = 80;
+                const heightSegments = 80;
 
-                const mouse = new THREE.Vector3(999, 999, 0); // Start mouse off-screen
+                const geometry = new THREE.PlaneGeometry(planeWidth, planeHeight, widthSegments, heightSegments);
+                geometry.rotateX(-Math.PI / 3);
 
-                for (let i = 0; i < particlesCount; i++) {
-                    const i3 = i * 3;
-                    positions[i3] = (Math.random() - 0.5) * 30;
-                    positions[i3 + 1] = (Math.random() - 0.5) * 40;
-                    positions[i3 + 2] = (Math.random() - 0.5) * 10;
-
-                    velocities.push({
-                        x: (Math.random() - 0.5) * 0.01,
-                        y: (Math.random() - 0.5) * 0.01,
-                    });
-                }
-                
-                const particlesGeometry = new THREE.BufferGeometry();
-                particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-
-                const particlesMaterial = new THREE.PointsMaterial({
-                    size: 0.05,
-                    color: 0x0891b2,
-                    blending: THREE.AdditiveBlending,
+                const material = new THREE.MeshPhongMaterial({
+                    color: 0xff6f3c,
+                    shininess: 60,
+                    specular: 0xffd1b3,
+                    flatShading: true,
                     transparent: true,
                     opacity: 0.8
                 });
-                const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-                scene.add(particlesMesh);
 
-                const lineGeometry = new THREE.BufferGeometry();
-                const linePositions = new Float32Array(particlesCount * particlesCount * 3);
-                lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
-                
-                const lineMaterial = new THREE.LineBasicMaterial({
-                    color: 0x0891b2,
-                    linewidth: 1,
-                    transparent: true,
-                    opacity: 0.1
-                });
-                const linesMesh = new THREE.LineSegments(lineGeometry, lineMaterial);
-                scene.add(linesMesh);
+                const waveMesh = new THREE.Mesh(geometry, material);
+                scene.add(waveMesh);
+
+                const ambientLight = new THREE.AmbientLight(0xffffff, 0.35);
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 0.9);
+                directionalLight.position.set(10, 20, 10);
+
+                scene.add(ambientLight);
+                scene.add(directionalLight);
+
+                const positions = geometry.attributes.position;
+                const basePositions = new Float32Array(positions.array.length);
+                basePositions.set(positions.array);
+                const vertexCount = positions.count;
+
+                let mouseX = 0;
+                let mouseY = 0;
 
                 parentElement.addEventListener('mousemove', (event) => {
                     const rect = parentElement.getBoundingClientRect();
-                    const x = ((event.clientX - rect.left) / parentElement.offsetWidth) * 2 - 1;
-                    const y = -((event.clientY - rect.top) / parentElement.offsetHeight) * 2 + 1;
-                    
-                    const vector = new THREE.Vector3(x, y, 0.5);
-                    vector.unproject(camera);
-                    const dir = vector.sub(camera.position).normalize();
-                    const distance = -camera.position.z / dir.z;
-                    mouse.copy(camera.position).add(dir.multiplyScalar(distance));
+                    const x = (event.clientX - rect.left) / rect.width;
+                    const y = (event.clientY - rect.top) / rect.height;
+
+                    mouseX = (x - 0.5) * 2;
+                    mouseY = (y - 0.5) * 2;
                 });
 
                 parentElement.addEventListener('mouseleave', () => {
-                    mouse.set(999, 999, 0);
+                    mouseX = 0;
+                    mouseY = 0;
                 });
+
+                const clock = new THREE.Clock();
 
                 function animate() {
                     requestAnimationFrame(animate);
 
-                    const positions = particlesMesh.geometry.attributes.position.array;
-                    let lineVertexIndex = 0;
-                    const linePositions = linesMesh.geometry.attributes.position.array;
+                    const time = clock.getElapsedTime();
+                    const arr = positions.array;
 
-                    for (let i = 0; i < particlesCount; i++) {
-                        const i3 = i * 3;
-                        positions[i3] += velocities[i].x;
-                        positions[i3 + 1] += velocities[i].y;
+                    for (let i = 0; i < vertexCount; i++) {
+                        const ix = i * 3;
 
-                        if (positions[i3] > 15 || positions[i3] < -15) velocities[i].x *= -1;
-                        if (positions[i3 + 1] > 20 || positions[i3 + 1] < -20) velocities[i].y *= -1;
+                        const x = basePositions[ix];
+                        const y = basePositions[ix + 1];
 
-                        const p1 = new THREE.Vector3(positions[i3], positions[i3 + 1], positions[i3 + 2]);
+                        const diagonal = x + y;
 
-                        // Connect to mouse
-                        if (p1.distanceTo(mouse) < mouseRadius) {
-                            linePositions[lineVertexIndex++] = p1.x;
-                            linePositions[lineVertexIndex++] = p1.y;
-                            linePositions[lineVertexIndex++] = p1.z;
-                            linePositions[lineVertexIndex++] = mouse.x;
-                            linePositions[lineVertexIndex++] = mouse.y;
-                            linePositions[lineVertexIndex++] = mouse.z;
-                        }
+                        const wave =
+                            Math.sin((x * 0.55) + time * 1.3) * 0.5 +
+                            Math.cos((diagonal * 0.42) + time * 0.9) * 0.4 +
+                            Math.sin((y * 0.65) + time * 1.6) * 0.3;
 
-                        // Connect to other particles
-                        for (let j = i + 1; j < particlesCount; j++) {
-                            const j3 = j * 3;
-                            const p2 = new THREE.Vector3(positions[j3], positions[j3 + 1], positions[j3 + 2]);
-                            if (p1.distanceTo(p2) < connectDistance) {
-                                linePositions[lineVertexIndex++] = p1.x;
-                                linePositions[lineVertexIndex++] = p1.y;
-                                linePositions[lineVertexIndex++] = p1.z;
-                                linePositions[lineVertexIndex++] = p2.x;
-                                linePositions[lineVertexIndex++] = p2.y;
-                                linePositions[lineVertexIndex++] = p2.z;
-                            }
-                        }
+                        arr[ix + 2] = wave * 2.0;
                     }
 
-                    linesMesh.geometry.setDrawRange(0, lineVertexIndex / 3);
-                    linesMesh.geometry.attributes.position.needsUpdate = true;
-                    particlesMesh.geometry.attributes.position.needsUpdate = true;
+                    positions.needsUpdate = true;
+
+                    camera.position.x = mouseX * 4;
+                    camera.position.y = 5 + mouseY * 2;
+                    camera.lookAt(new THREE.Vector3(0, 0, 0));
 
                     renderer.render(scene, camera);
                 }
 
                 animate();
-                
+
                 window.addEventListener('resize', () => {
+                    if (!parentElement) return;
                     camera.aspect = parentElement.offsetWidth / parentElement.offsetHeight;
                     camera.updateProjectionMatrix();
                     renderer.setSize(parentElement.offsetWidth, parentElement.offsetHeight);
@@ -473,4 +460,3 @@
     </script>
 </body>
 </html>
-
