@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-BVZST4N4DQ"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -14,26 +13,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mario Ruiz | Industrial Designer Resume</title>
 
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Three.js for 3D animation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r152/three.min.js"></script>
 
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="css/resume.css">
 </head>
 <body class="antialiased text-gray-800">
 
-    <!-- scroll progress bar -->
     <div class="top-progress">
         <div id="scroll-progress" class="top-progress-bar"></div>
     </div>
@@ -41,28 +34,24 @@
     <main id="main-content">
         <div class="container mx-auto max-w-7xl p-4 sm:p-6 lg:p-8">
             <div class="resume-shell bg-white rounded-2xl shadow-2xl overflow-hidden relative">
-                <!-- dark mode toggle -->
                 <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
                     <i class="fa-solid fa-sun theme-icon"></i>
                 </button>
 
                 <div class="grid grid-cols-1 lg:grid-cols-3">
                     
-                    <!-- Left Column (Sidebar) -->
                     <aside class="col-span-1 bg-gray-900 text-white p-8 lg:p-10 flex flex-col relative overflow-hidden">
                         <canvas id="bg-canvas"></canvas>
                         <div class="content-overlay flex flex-col flex-grow">
                             
-                            <!-- Profile Header -->
                             <div class="text-center mb-8 animate-on-scroll">
                                 <img src="assets/images/profile-pic.png" alt="Mario Ruiz Profile Picture" class="profile-photo w-32 h-32 rounded-full mx-auto mb-4 border-4 border-gray-700 object-cover shadow-lg">
                                 <h1 class="text-3xl font-bold text-orange-main">Mario Ruiz</h1>
                                 <h2 class="text-xl font-light text-gray-300">Industrial Designer /</h2>
                                 <h2 class="text-xl font-light text-gray-300">Product Developer</h2>
 
-                                <!-- QR block -->
                                 <div class="qr-block mt-6">
-                                    <a href="https://ruiz-mar.github.io/resume/index.html" target="_blank" aria-label="Open online resume and portfolio">
+                                    <a href="https://ruiz-mar.github.io/resume/index.html" target="_blank" rel="noopener noreferrer" aria-label="Open online resume and portfolio">
                                         <img src="assets/images/resume-qr.png" alt="QR code to online resume and portfolio" class="qr-image mx-auto">
                                     </a>
                                     <p class="qr-caption mt-2 text-xs text-gray-300">
@@ -73,11 +62,10 @@
 
                             <hr class="my-6 border-gray-700 animate-on-scroll">
 
-                            <!-- Contact Section -->
                             <section class="mb-8 animate-on-scroll">
                                 <h3 class="text-lg font-semibold text-gray-300 uppercase tracking-wider mb-4 section-title">Contact</h3>
                                 <div class="space-y-4 text-sm">
-                                    <a href="tel:+14378383936" class="flex items-center group link-underline">
+                                    <a href="tel:+14378783936" class="flex items-center group link-underline">
                                         <i class="fas fa-phone w-6 text-orange-main group-hover:text-orange-light transition-colors icon-glow"></i>
                                         <span class="group-hover:text-gray-200 transition-colors ml-1">+1 437 878 3936</span>
                                     </a>
@@ -89,15 +77,15 @@
                                         <i class="fas fa-map-marker-alt w-6 text-orange-main icon-glow"></i>
                                         <span class="ml-1">Burlington GTA, ON</span>
                                     </div>
-                                    <a href="https://www.linkedin.com/in/marioruiz3d/" target="_blank" class="flex items-center group link-underline">
+                                    <a href="https://www.linkedin.com/in/marioruiz3d/" target="_blank" rel="noopener noreferrer" class="flex items-center group link-underline">
                                         <i class="fab fa-linkedin w-6 text-orange-main group-hover:text-orange-light transition-colors icon-glow"></i>
                                         <span class="group-hover:text-gray-200 transition-colors ml-1">linkedin.com/in/marioruiz3d</span>
                                     </a>
-                                    <a href="https://profile.indeed.com/p/marior-db4w8bm" target="_blank" class="flex items-center group link-underline">
+                                    <a href="https://profile.indeed.com/p/marior-db4w8bm" target="_blank" rel="noopener noreferrer" class="flex items-center group link-underline">
                                         <i class="fa-solid fa-circle-info w-6 text-orange-main group-hover:text-orange-light transition-colors icon-glow"></i>
                                         <span class="group-hover:text-gray-200 transition-colors ml-1">Full Resume (Indeed)</span>
                                     </a>
-                                    <a href="https://drive.google.com/drive/folders/1Sr4PWlnRAG6gc3E1PT6GSvFVI0Vw63xq?usp=sharing" target="_blank" class="flex items-center group link-underline">
+                                    <a href="https://drive.google.com/drive/folders/1Sr4PWlnRAG6gc3E1PT6GSvFVI0Vw63xq?usp=sharing" target="_blank" rel="noopener noreferrer" class="flex items-center group link-underline">
                                         <i class="fa-solid fa-globe w-6 text-orange-main group-hover:text-orange-light transition-colors icon-glow"></i>
                                         <span class="group-hover:text-gray-200 transition-colors ml-1">Web Portfolio</span>
                                     </a>
@@ -106,7 +94,6 @@
                             
                             <hr class="my-6 border-gray-700 animate-on-scroll">
 
-                            <!-- Core Competencies Section -->
                             <section class="mb-8 animate-on-scroll">
                                 <h3 class="text-lg font-semibold text-gray-300 uppercase tracking-wider mb-4 section-title">Core Competencies</h3>
                                 <ul class="space-y-2 text-sm text-gray-300">
@@ -121,7 +108,6 @@
 
                             <hr class="my-6 border-gray-700 animate-on-scroll">
 
-                            <!-- Skill Proficiency -->
                             <section class="mb-8 animate-on-scroll">
                                 <h3 class="text-lg font-semibold text-gray-300 uppercase tracking-wider mb-4 section-title">Skill Proficiency</h3>
                                 <div class="space-y-5 text-sm text-gray-300">
@@ -144,23 +130,22 @@
                                         </div>
                                     </div>
                                     <div class="skill-block animate-on-scroll">
-                                        <p class="mb-1">Graphic Design (Figma, Framer, html, css)</p>
+                                        <p class="mb-1">Graphic Design (Figma, Framer, HTML, CSS)</p>
                                         <div class="w-full bg-gray-700 rounded-full h-2 overflow-hidden">
                                             <div class="skill-bar h-2 rounded-full" data-width="90%"></div>
                                         </div>
-									<div class="skill-block animate-on-scroll">
+                                    </div>
+                                    <div class="skill-block animate-on-scroll">
                                         <p class="mb-1">UX UI (Figma, Framer, HTML, CSS, WebFlow, WP)</p>
                                         <div class="w-full bg-gray-700 rounded-full h-2 overflow-hidden">
                                            <div class="skill-bar h-2 rounded-full" data-width="70%"></div>
                                         </div>
-                                    </div>
                                     </div>
                                 </div>
                             </section>
                             
                             <hr class="my-6 border-gray-700 animate-on-scroll">
                             
-                            <!-- Languages Section -->
                             <section class="mb-8 animate-on-scroll">
                                 <h3 class="text-lg font-semibold text-gray-300 uppercase tracking-wider mb-4 section-title">Languages</h3>
                                 <div class="space-y-2 text-sm text-gray-300">
@@ -174,7 +159,6 @@
                         </div>
                     </aside>
 
-                    <!-- Right Column (Main Content) -->
                     <section class="col-span-1 lg:col-span-2 p-8 lg:p-12 bg-gray-50 main-panel" aria-label="Resume content">
                         <section class="mb-12 animate-on-scroll">
                             <h3 class="text-3xl font-bold text-gray-800 border-b-2 border-orange-main pb-3 mb-4 section-title">Professional Summary</h3>
@@ -186,46 +170,42 @@
                         <section class="mb-12 animate-on-scroll">
                             <h3 class="text-3xl font-bold text-gray-800 border-b-2 border-orange-main pb-3 mb-8 section-title">Work Experience</h3>
                             <div class="relative pl-10 timeline-wrapper">
-                                <!-- Experience 1 -->
                                 <article class="timeline-item group relative mb-8 rounded-lg p-4 card-hover">
                                     <div class="timeline-line"></div>
                                     <p class="font-medium text-orange-main">April 2024 to Present</p>
                                     <h4 class="text-lg font-bold text-gray-900">3D Designer and Visualization Lead (Freelance)</h4>
                                     <p class="text-sm text-gray-500 mb-2">M33 Design Studio, Greater Toronto Area, ON</p>
                                     <ul class="list-disc list-inside text-gray-600 text-sm space-y-1">
-                                		<li>Create modular, system-driven 3D models in SolidWorks and Rhino, using Grasshopper for parametric geometry. Produce clear visuals in KeyShot, 3ds Max with Corona, Rhino with V-Ray, Blender with Cycles, or Twinmotion depending on project needs.</li>
-										<li>Collaborate with startups and creative teams on architectural products, tactical-inspired components, exhibitions, and retail environments that integrate product, brand, and space.</li>
-										<li>Develop modular and experiential concepts for trade shows, showrooms, interior installations, and performance-oriented product displays.</li>
-										<li>Use AI-assisted tools to refine ideas, accelerate exploration, and support both concept development and client presentations.</li>
-									</ul>
+                                        <li>Create modular, system-driven 3D models in SolidWorks and Rhino, using Grasshopper for parametric geometry. Produce clear visuals in KeyShot, 3ds Max with Corona, Rhino with V-Ray, Blender with Cycles, or Twinmotion depending on project needs.</li>
+                                        <li>Collaborate with startups and creative teams on architectural products, tactical-inspired components, exhibitions, and retail environments that integrate product, brand, and space.</li>
+                                        <li>Develop modular and experiential concepts for trade shows, showrooms, interior installations, and performance-oriented product displays.</li>
+                                        <li>Use AI-assisted tools to refine ideas, accelerate exploration, and support both concept development and client presentations.</li>
+                                    </ul>
                                 </article>
-                                <!-- Experience 2 -->
                                 <article class="timeline-item group relative mb-8 rounded-lg p-4 card-hover">
                                     <div class="timeline-line"></div>
                                     <p class="font-medium text-orange-main">April 2023 to April 2024</p>
                                     <h4 class="text-lg font-bold text-gray-900">Lead Industrial Designer, Acoustic and Lighting Systems</h4>
                                     <p class="text-sm text-gray-500 mb-2">Ezobord and Ayrsonics, Mississauga, ON</p>
                                     <ul class="list-disc list-inside text-gray-600 text-sm space-y-1">
-                                    	<li>Delivered multiple new product lines from concept through prototyping, testing, and manufacturing launch for architectural and lighting projects, including wall panels, ceilings, office environments, and small-scale products.</li>
-										<li>Led the design of modular acoustic and lighting systems using PET materials, LEDs, aluminum components, and custom metal brackets for fast assembly and clean installation.</li>
-										<li>Created detailed CAD models, fabrication drawings, and high-quality renderings for production, marketing, and client presentations.</li>
-										<li>Collaborated with lighting vendors, production teams, and marketing to ensure design performance, consistency, and manufacturing accuracy across product families.</li>
+                                        <li>Delivered multiple new product lines from concept through prototyping, testing, and manufacturing launch for architectural and lighting projects, including wall panels, ceilings, office environments, and small-scale products.</li>
+                                        <li>Led the design of modular acoustic and lighting systems using PET materials, LEDs, aluminum components, and custom metal brackets for fast assembly and clean installation.</li>
+                                        <li>Created detailed CAD models, fabrication drawings, and high-quality renderings for production, marketing, and client presentations.</li>
+                                        <li>Collaborated with lighting vendors, production teams, and marketing to ensure design performance, consistency, and manufacturing accuracy across product families.</li>
                                     </ul>
                                 </article>
-                                <!-- Experience 3 -->
                                 <article class="timeline-item group relative mb-8 rounded-lg p-4 card-hover">
                                     <div class="timeline-line"></div>
                                     <p class="font-medium text-orange-main">May 2020 to April 2023</p>
                                     <h4 class="text-lg font-bold text-gray-900">CAD Designer, Engineering and Product Development</h4>
                                     <p class="text-sm text-gray-500 mb-2">Magna International, Greater Toronto Area, ON</p>
                                     <ul class="list-disc list-inside text-gray-600 text-sm space-y-1">
-                                   		<li>Designed 3D mechanical assemblies, tooling, and fixtures in SolidWorks and AutoCAD for automotive production, optimized for CNC, laser cutting, stamping, welding, and bending.</li>
-										<li>Produced 2D drawings, graphics, compliance labels, decals, and layouts in AutoCAD, CorelDRAW, and Adobe Illustrator to support production, engineering, and visual identification.</li>
-										<li>Created precise files for CNC routing, laser cutting, machining, and robotics cell layouts, collaborating closely with operators and production staff to ensure manufacturability.</li>
-										<li>Maintained ISO 9001 and IATF 16949 automotive quality standards, along with OHS, Lean, and 5S practices, ensuring compliance for clients including Mercedes-Benz, Chrysler, BMW, Fiat, and Ford.</li>
-									</ul>									
+                                        <li>Designed 3D mechanical assemblies, tooling, and fixtures in SolidWorks and AutoCAD for automotive production, optimized for CNC, laser cutting, stamping, welding, and bending.</li>
+                                        <li>Produced 2D drawings, graphics, compliance labels, decals, and layouts in AutoCAD, CorelDRAW, and Adobe Illustrator to support production, engineering, and visual identification.</li>
+                                        <li>Created precise files for CNC routing, laser cutting, machining, and robotics cell layouts, collaborating closely with operators and production staff to ensure manufacturability.</li>
+                                        <li>Maintained ISO 9001 and IATF 16949 automotive quality standards, along with OHS, Lean, and 5S practices, ensuring compliance for clients including Mercedes-Benz, Chrysler, BMW, Fiat, and Ford.</li>
+                                    </ul>									
                                 </article>
-                                <!-- Experience 4 -->
                                 <article class="timeline-item group relative mb-8 rounded-lg p-4 card-hover">
                                     <div class="timeline-line"></div>
                                     <p class="font-medium text-orange-main">2008 to 2020</p>
