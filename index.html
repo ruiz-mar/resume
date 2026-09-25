@@ -21,9 +21,18 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r152/three.min.js"></script>
-
     <link rel="stylesheet" href="css/resume.css">
+    <style>
+        /* Camo layer: fully visible on screen, removed for print so text stays clean */
+        /* Navy blue camo with signal orange accents */
+        :root { --primary-color: #E8622C; --primary-color-light: #F6C3A6; }
+        aside.bg-gray-900 { background-color: #111827; }
+        #bg-canvas { opacity: 1; pointer-events: none; }
+        @media print {
+            #bg-canvas { display: none !important; }
+            aside { background: #111827 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
+    </style>
 </head>
 <body class="antialiased text-gray-800">
 
@@ -347,116 +356,61 @@
                 });
             }
 
-            // three js diagonal noise wave
+            // Animated digital camo (navy blue) behind the sidebar. Decorative only: no text, hidden when printed.
             const canvas = document.getElementById('bg-canvas');
+            if (canvas) {
+                const ctx = canvas.getContext('2d');
+                const parent = canvas.parentElement;
+                const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                const CELL = 7;
+                const palette = ['#111827', '#17223a', '#1e2d4b', '#27395d'];
+                let cols = 0, rows = 0, t = Math.random() * 100, visible = true, last = 0;
 
-            if (canvas && window.innerWidth >= 768) {
-                const scene = new THREE.Scene();
-                const parentElement = canvas.parentElement;
-
-                const camera = new THREE.PerspectiveCamera(
-                    45,
-                    parentElement.offsetWidth / parentElement.offsetHeight,
-                    0.1,
-                    100
-                );
-
-                const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
-                renderer.setSize(parentElement.offsetWidth, parentElement.offsetHeight);
-                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-                camera.position.set(0, 5, 35);
-
-                const planeWidth = 30;
-                const planeHeight = 40;
-                const widthSegments = 80;
-                const heightSegments = 80;
-
-                const geometry = new THREE.PlaneGeometry(planeWidth, planeHeight, widthSegments, heightSegments);
-                geometry.rotateX(-Math.PI / 3);
-
-                const material = new THREE.MeshPhongMaterial({
-                    color: 0xff6f3c,
-                    shininess: 60,
-                    specular: 0xffd1b3,
-                    flatShading: true,
-                    transparent: true,
-                    opacity: 0.8
-                });
-
-                const waveMesh = new THREE.Mesh(geometry, material);
-                scene.add(waveMesh);
-
-                const ambientLight = new THREE.AmbientLight(0xffffff, 0.35);
-                const directionalLight = new THREE.DirectionalLight(0xffffff, 0.9);
-                directionalLight.position.set(10, 20, 10);
-
-                scene.add(ambientLight);
-                scene.add(directionalLight);
-
-                const positions = geometry.attributes.position;
-                const basePositions = new Float32Array(positions.array.length);
-                basePositions.set(positions.array);
-                const vertexCount = positions.count;
-
-                let mouseX = 0;
-                let mouseY = 0;
-
-                parentElement.addEventListener('mousemove', (event) => {
-                    const rect = parentElement.getBoundingClientRect();
-                    const x = (event.clientX - rect.left) / rect.width;
-                    const y = (event.clientY - rect.top) / rect.height;
-
-                    mouseX = (x - 0.5) * 2;
-                    mouseY = (y - 0.5) * 2;
-                });
-
-                parentElement.addEventListener('mouseleave', () => {
-                    mouseX = 0;
-                    mouseY = 0;
-                });
-
-                const clock = new THREE.Clock();
-
-                function animate() {
-                    requestAnimationFrame(animate);
-
-                    const time = clock.getElapsedTime();
-                    const arr = positions.array;
-
-                    for (let i = 0; i < vertexCount; i++) {
-                        const ix = i * 3;
-
-                        const x = basePositions[ix];
-                        const y = basePositions[ix + 1];
-
-                        const diagonal = x + y;
-
-                        const wave =
-                            Math.sin((x * 0.55) + time * 1.3) * 0.5 +
-                            Math.cos((diagonal * 0.42) + time * 0.9) * 0.4 +
-                            Math.sin((y * 0.65) + time * 1.6) * 0.3;
-
-                        arr[ix + 2] = wave * 2.0;
-                    }
-
-                    positions.needsUpdate = true;
-
-                    camera.position.x = mouseX * 4;
-                    camera.position.y = 5 + mouseY * 2;
-                    camera.lookAt(new THREE.Vector3(0, 0, 0));
-
-                    renderer.render(scene, camera);
+                // Value noise with smooth interpolation
+                const P = new Uint8Array(512);
+                const perm = [...Array(256).keys()].sort(() => Math.random() - 0.5);
+                for (let i = 0; i < 512; i++) P[i] = perm[i & 255];
+                const fade = (x) => x * x * (3 - 2 * x);
+                const hash = (x, y) => P[(P[x & 255] + y) & 255] / 255;
+                function noise(x, y) {
+                    const xi = Math.floor(x), yi = Math.floor(y);
+                    const xf = fade(x - xi), yf = fade(y - yi);
+                    const a = hash(xi, yi), b = hash(xi + 1, yi), c = hash(xi, yi + 1), d = hash(xi + 1, yi + 1);
+                    return a + (b - a) * xf + (c - a) * yf + (a - b - c + d) * xf * yf;
+                }
+                function fbm(x, y) {
+                    return noise(x, y) * 0.6 + noise(x * 2.1 + 17, y * 2.1 + 31) * 0.3 + noise(x * 4.3 + 7, y * 4.3 + 3) * 0.1;
                 }
 
-                animate();
+                function resize() {
+                    const w = parent.offsetWidth, h = parent.offsetHeight;
+                    canvas.width = w; canvas.height = h;
+                    cols = Math.ceil(w / CELL); rows = Math.ceil(h / CELL);
+                    draw();
+                }
+                function draw() {
+                    const s = 0.045;
+                    for (let y = 0; y < rows; y++) {
+                        for (let x = 0; x < cols; x++) {
+                            const n = fbm(x * s + t * 0.6, y * s - t * 0.35);
+                            const i = n < 0.42 ? 0 : n < 0.55 ? 1 : n < 0.66 ? 2 : 3;
+                            ctx.fillStyle = palette[i];
+                            ctx.fillRect(x * CELL, y * CELL, CELL, CELL);
+                        }
+                    }
+                }
+                function loop(ts) {
+                    if (visible && ts - last > 110) { t += 0.012; draw(); last = ts; }
+                    requestAnimationFrame(loop);
+                }
 
-                window.addEventListener('resize', () => {
-                    if (!parentElement) return;
-                    camera.aspect = parentElement.offsetWidth / parentElement.offsetHeight;
-                    camera.updateProjectionMatrix();
-                    renderer.setSize(parentElement.offsetWidth, parentElement.offsetHeight);
-                });
+                resize();
+                window.addEventListener('resize', resize);
+                if ('ResizeObserver' in window) new ResizeObserver(resize).observe(parent);
+                if ('IntersectionObserver' in window) {
+                    new IntersectionObserver((e) => { visible = e[0].isIntersecting && !document.hidden; }).observe(parent);
+                }
+                if (!reduce) requestAnimationFrame(loop);
             }
         });
     </script>
